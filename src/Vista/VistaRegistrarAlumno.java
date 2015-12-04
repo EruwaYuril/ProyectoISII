@@ -218,6 +218,7 @@ public class VistaRegistrarAlumno extends javax.swing.JFrame {
            }
         }
     
+    
      protected MaskFormatter createFormatter(String s) {
         MaskFormatter formatter = null;
         try {
