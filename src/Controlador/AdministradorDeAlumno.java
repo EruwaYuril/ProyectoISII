@@ -30,10 +30,13 @@ public class AdministradorDeAlumno {
     }
     
     public static String Modificar(Alumno unAlumno){
-        
-        if(DAOAlumno.ConsultaModificar(unAlumno) == 0){
+        int numResultado = DAOAlumno.ConsultaModificar(unAlumno);
+        if(numResultado == 0){
             return "Alumno modificado!";
-        }else{
+        }else if(numResultado == 1){
+            return "Datos introducidos incorrectos.";
+        }
+        else{
             return "Error al modificar alumno.";
         }
         

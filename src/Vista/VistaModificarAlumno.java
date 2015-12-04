@@ -150,10 +150,10 @@ public class VistaModificarAlumno extends javax.swing.JFrame {
         
         Alumno unAlumno = new Alumno(nombre, apellidos, matricula);
         
-        if(txtNombreAlumno.getText().equals("") || txtApellidosAlumno.getText().equals("")){
-            JOptionPane.showMessageDialog(null, "ERROR: Llenar los campos de nombre y apellidos",
-                    "Error", JOptionPane.ERROR_MESSAGE);
-        }else{
+//        if(txtNombreAlumno.getText().equals("") || txtApellidosAlumno.getText().equals("")){
+//            JOptionPane.showMessageDialog(null, "ERROR: Llenar los campos de nombre y apellidos",
+//                    "Error", JOptionPane.ERROR_MESSAGE);
+//        }else{
             if(matricula.length()<8){
                 JOptionPane.showMessageDialog(null, "ERROR: Matricula debe ser de 8 numeros. Ej: 12345678",
                         "Error", JOptionPane.ERROR_MESSAGE);
@@ -166,7 +166,7 @@ public class VistaModificarAlumno extends javax.swing.JFrame {
                         "Modificar", JOptionPane.YES_NO_OPTION) == JOptionPane.NO_OPTION){
                     this.dispose();
                 }
-            }
+//            }
         }
         
         txtNombreAlumno.setText("");
