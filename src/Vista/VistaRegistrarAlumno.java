@@ -7,6 +7,7 @@ package Vista;
 import Controlador.AdministradorDeAlumno;
 import ConexionBD.BaseDatos;
 import Modulo.Alumno;
+import java.util.regex.Pattern;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.text.AttributeSet;
@@ -43,7 +44,7 @@ public class VistaRegistrarAlumno extends javax.swing.JFrame {
         btnGuardar = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         btnCancelar = new javax.swing.JButton();
-        txtMatricula = new javax.swing.JFormattedTextField(createFormatter("########"));
+        txtMatricula = new javax.swing.JFormattedTextField(crearFormato("########"));
         txtNombreAlumno = new javax.swing.JFormattedTextField();
         txtApellidosAlumno = new javax.swing.JFormattedTextField();
 
@@ -134,18 +135,24 @@ public class VistaRegistrarAlumno extends javax.swing.JFrame {
         
         String nombre = txtNombreAlumno.getText();
         String apellidos = txtApellidosAlumno.getText();
-        String matricula = txtMatricula.getText();
+        String matricula = txtMatricula.getText().replaceAll("\\s","");
         
         Alumno unAlumno = new Alumno(nombre, apellidos, matricula);
         
-        if(txtNombreAlumno.getText().equals("") || txtApellidosAlumno.getText().equals("") || txtMatricula.getText().equals("")){
-            JOptionPane.showMessageDialog(null, "LLENAR TODOS LOS CAMPOS", "Error", JOptionPane.ERROR_MESSAGE);
-        } else {
-            AdministradorDeAlumno.Registrar(unAlumno);
-            JOptionPane.showMessageDialog(null, "Alumno Guardado");
-            if(JOptionPane.showConfirmDialog(null, "Desea registrar otro?", "Registrar", JOptionPane.YES_NO_OPTION) == JOptionPane.NO_OPTION){
-                this.dispose();
-                //new VistaRegistrarAlumno().setVisible(true);
+        if(txtNombreAlumno.getText().equals("") || txtApellidosAlumno.getText().equals("")){
+            JOptionPane.showMessageDialog(null, "ERROR: Llenar los campos de nombre y apellidos", "Error", JOptionPane.ERROR_MESSAGE);
+        }else{
+            if(matricula.length()<8){
+                JOptionPane.showMessageDialog(null, "ERROR: Matricula debe ser de 8 numeros. Ej: 12345678", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else {
+                String msjResultado = AdministradorDeAlumno.Registrar(unAlumno);
+                JOptionPane.showMessageDialog(null, msjResultado);
+                if(JOptionPane.showConfirmDialog(null, "Desea registrar otro?",
+                        "Registrar", JOptionPane.YES_NO_OPTION) == JOptionPane.NO_OPTION){
+                    this.dispose();
+                    //new VistaRegistrarAlumno().setVisible(true);
+                }
             }
         }
         txtNombreAlumno.setText("");
@@ -218,16 +225,15 @@ public class VistaRegistrarAlumno extends javax.swing.JFrame {
            }
         }
     
-    
-     protected MaskFormatter createFormatter(String s) {
-        MaskFormatter formatter = null;
+     protected MaskFormatter crearFormato(String s) {
+        MaskFormatter formato = null;
         try {
-            formatter = new MaskFormatter(s);
+            formato = new MaskFormatter(s);
         } catch (java.text.ParseException exc) {
             System.err.println("El MaskFormatter es incorrecto: " + exc.getMessage());
             System.exit(-1);
         }
-        return formatter;
+        return formato;
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;

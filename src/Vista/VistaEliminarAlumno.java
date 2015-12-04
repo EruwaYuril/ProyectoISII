@@ -43,7 +43,7 @@ public class VistaEliminarAlumno extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         btnEliminar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
-        txtMatricula = new javax.swing.JFormattedTextField(createFormatter("########"));
+        txtMatricula = new javax.swing.JFormattedTextField(crearFormato("########"));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -106,15 +106,23 @@ public class VistaEliminarAlumno extends javax.swing.JFrame {
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         
-        String matricula = txtMatricula.getText();
+        String matricula = txtMatricula.getText().replaceAll("\\s","");
         
-        AdministradorDeAlumno.Eliminar(matricula);
+        if(matricula.length()<8){
+            JOptionPane.showMessageDialog(null, "ERROR: Matricula debe ser de 8 numeros. Ej: 12345678", 
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        else {
+            String msjResultado = AdministradorDeAlumno.Eliminar(matricula);
+            JOptionPane.showMessageDialog(null, msjResultado,
+                    "Resultado", JOptionPane.INFORMATION_MESSAGE);
+            if(JOptionPane.showConfirmDialog(null, "Desea eliminar otro?",
+                    "Registrar", JOptionPane.YES_NO_OPTION) == JOptionPane.NO_OPTION){
+                this.dispose();
+            }
+        }
         
-        JOptionPane.showMessageDialog(null, "Alumno eliminado!", "Resultado", 
-                JOptionPane.INFORMATION_MESSAGE);
-        
-        this.dispose();
-        
+        txtMatricula.setText("");
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
@@ -159,15 +167,15 @@ public class VistaEliminarAlumno extends javax.swing.JFrame {
         });
     }
     
-     protected MaskFormatter createFormatter(String s) {
-        MaskFormatter formatter = null;
+     protected MaskFormatter crearFormato(String s) {
+        MaskFormatter formato = null;
         try {
-            formatter = new MaskFormatter(s);
+            formato = new MaskFormatter(s);
         } catch (java.text.ParseException exc) {
             System.err.println("El MaskFormatter es incorrecto: " + exc.getMessage());
             System.exit(-1);
         }
-        return formatter;
+        return formato;
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;

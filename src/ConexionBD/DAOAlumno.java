@@ -12,13 +12,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author Cristian Xool
  */
 public class DAOAlumno {
-     public static void ConsultaRegistro(Alumno unAlumno){
+     public static int ConsultaRegistro(Alumno unAlumno){
         
         String nombreAlumno = unAlumno.GetNombre();
         String apellidosAlumno = unAlumno.GetApellidos();
@@ -26,22 +27,22 @@ public class DAOAlumno {
      
         Connection miConexion = BaseDatos.ObtenerConexion(); 
         try{
-            PreparedStatement consulta = miConexion.prepareStatement("INSERT INTO "+
-                    "alumnos (matricula, nombreAlumno, apellidosAlumno) "+
-                    "VALUES (?, ?, ?)");
-            consulta.setString(1, matricula);
-            consulta.setString(2, nombreAlumno);
-            consulta.setString(3, apellidosAlumno);
-            consulta.executeUpdate();
+            Statement consulta = miConexion.createStatement();
+            
+            consulta.executeUpdate("INSERT INTO alumnos (matricula, nombreAlumno, apellidosAlumno) " +
+                    "VALUES ('" + matricula + "', '"+ nombreAlumno + "', '" +
+                    apellidosAlumno + "')");
             System.out.println("Alumno: " + matricula + " " + nombreAlumno + 
                     " " + apellidosAlumno + ", registrado.");
+            return 0;
           
         }catch(SQLException ex){
-            System.err.println("Error al registrar alumno.");
+            System.err.println("Error al registrar alumno. " + ex);
+            return -1;
         }
     }
     
-    public static void ConsultaModificar(Alumno unAlumno){
+    public static int ConsultaModificar(Alumno unAlumno){
        
         Connection miConexion = BaseDatos.ObtenerConexion();
         Alumno nuevosDatos = unAlumno;
@@ -70,15 +71,19 @@ public class DAOAlumno {
                         " actualizado.");
             }else{
                 System.err.println("Datos para modificar alumno incorrectos.");
+                return 1;
             }
             
+            return 0;
+            
         }catch(SQLException ex){
-            System.err.println("Error al modificar alumno.");
+            System.err.println("Error al modificar alumno. " + ex);
+            return -1;
         }
         
     }
 
-    public static void ConsultaEliminar(String matricula){
+    public static int ConsultaEliminar(String matricula){
         Connection miConexion = BaseDatos.ObtenerConexion();
         String unaMatricula = matricula;
         
@@ -86,24 +91,30 @@ public class DAOAlumno {
             Statement consulta = miConexion.createStatement();
             consulta.executeUpdate("DELETE FROM Alumnos WHERE matricula = " + unaMatricula + ";");
             System.out.println("Alumno con matricula [" + unaMatricula + "] eliminado.");
+            return 0;
         }catch(SQLException ex){
-            System.err.println("Error al eliminar alumno.");
+            System.err.println("Error al eliminar alumno. " + ex);
+            return -1;
         }
     }
 
-    public static ArrayList<Alumno> ObtenerLista() throws SQLException{
+    public static ArrayList<Alumno> GenerarLista(){
         Connection miConexion = BaseDatos.ObtenerConexion();
-      
+        
         ArrayList<Alumno> lista = new ArrayList<>();
         try{
             PreparedStatement consulta = miConexion.prepareStatement("SELECT matricula, nombreAlumno, apellidosAlumno FROM alumnos");
             ResultSet resultado = consulta.executeQuery();
             while(resultado.next()){
-                lista.add(new Alumno(resultado.getString("matricula"), resultado.getString("nombreAlumno"), resultado.getString("apellidosAlumno")));
+                lista.add(new Alumno(resultado.getString("matricula"),
+                        resultado.getString("nombreAlumno"), 
+                        resultado.getString("apellidosAlumno")));
             }
         }catch(SQLException ex){
-            throw new SQLException(ex);
+            System.err.println("Error al generar lista de alumnos. " + ex);
+            JOptionPane.showMessageDialog(null, "Error al generar la lista de alumnos.",
+                    "Error Lista", JOptionPane.ERROR_MESSAGE);
         }
-    return lista;
-   }
+        return lista;
+    }
 }

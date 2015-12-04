@@ -129,7 +129,7 @@
     </Component>
     <Component class="javax.swing.JFormattedTextField" name="txtMatricula">
       <AuxValues>
-        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JFormattedTextField(createFormatter(&quot;########&quot;));"/>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JFormattedTextField(crearFormato(&quot;########&quot;))"/>
       </AuxValues>
     </Component>
   </SubComponents>

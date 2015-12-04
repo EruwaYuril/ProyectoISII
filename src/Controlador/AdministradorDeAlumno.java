@@ -19,44 +19,40 @@ import java.util.ArrayList;
  */
 public class AdministradorDeAlumno {
     
-    public static void Registrar(Alumno unAlumno){
+    public static String Registrar(Alumno unAlumno){
         
-        String nombreAlumno = unAlumno.GetNombre();
-        String apellidosAlumno = unAlumno.GetApellidos();
-        String matricula = unAlumno.GetMatricula();
-     
-        unAlumno = new Alumno(nombreAlumno,apellidosAlumno, matricula);
-         
-        DAOAlumno.ConsultaRegistro(unAlumno);
+        if(DAOAlumno.ConsultaRegistro(unAlumno) == 0){
+            return "Alumno guardado!";
+        }else{
+            return "Error al registrar alumno.";
+        }
+        
     }
     
-    public static void Modificar(Alumno unAlumno){
-       
-        String matricula, nombreAlumno, apellidosAlumno;
+    public static String Modificar(Alumno unAlumno){
         
-        nombreAlumno = unAlumno.GetNombre();
-        apellidosAlumno = unAlumno.GetApellidos();
-        matricula = unAlumno.GetMatricula();
+        if(DAOAlumno.ConsultaModificar(unAlumno) == 0){
+            return "Alumno modificado!";
+        }else{
+            return "Error al modificar alumno.";
+        }
+        
+    }
+
+    public static String Eliminar(String matricula){
      
-         unAlumno = new Alumno(nombreAlumno,apellidosAlumno, matricula);
-         
-         DAOAlumno.ConsultaModificar(unAlumno);
-            
-        
+        if(DAOAlumno.ConsultaEliminar(matricula) == 0){
+            return "Alumno eliminado!";
+        }else{
+            return "Error al eliminar alumno.";
+        }
     }
 
-    public static void Eliminar(String matricula){
+    public static ArrayList<Alumno> ObtenerLista(){
         
-        String unaMatricula = matricula;
-        
-        DAOAlumno.ConsultaEliminar(unaMatricula);
+        ArrayList<Alumno> lista = DAOAlumno.GenerarLista();
+        return lista;
     }
-
-    public static ArrayList<Alumno> Listar() throws SQLException{
-        
-        ArrayList<Alumno> lista = DAOAlumno.ObtenerLista();
-    return lista;
-   }
     
     
 }

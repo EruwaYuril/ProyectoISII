@@ -243,12 +243,11 @@ public class VistaListaAlumno extends javax.swing.JFrame {
         });
     }
     
-     private void actualizarTabla(){
-       
+    private void actualizarTabla(){
+        
         
         ArrayList<Alumno> lista;
-        try {
-            lista = AdministradorDeAlumno.Listar();
+        lista = AdministradorDeAlumno.ObtenerLista();
         
         Vector <String> titulo = new Vector<String>();
         Vector<Vector<Object>> data= new Vector<Vector<Object>>();
@@ -257,21 +256,17 @@ public class VistaListaAlumno extends javax.swing.JFrame {
         titulo.add("Nombre(s)");
         titulo.add("Apellidos");
         
-        
         for(int i=0; i<lista.size(); i++){
             Vector<Object> row= new Vector<Object>();
             row.add(((Alumno)lista.get(i)).GetNombre());
             row.add(((Alumno)lista.get(i)).GetApellidos());
             row.add(((Alumno)lista.get(i)).GetMatricula());
-             
+            
             data.add(row);
         }
         
         DefaultTableModel modelo= new javax.swing.table.DefaultTableModel(data, titulo);
-        tablaAlumno.setModel(modelo);  
-        } catch (SQLException ex) {
-            System.err.println("Error al inicializar tabla: " + ex);
-        }
+        tablaAlumno.setModel(modelo);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

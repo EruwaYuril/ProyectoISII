@@ -7,6 +7,7 @@ package Vista;
 import Controlador.AdministradorDeAlumno;
 import ConexionBD.BaseDatos;
 import Modulo.Alumno;
+import java.util.regex.Pattern;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.text.AttributeSet;
@@ -54,7 +55,7 @@ public class VistaModificarAlumno extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         txtNombreAlumno = new javax.swing.JFormattedTextField();
         txtApellidosAlumno = new javax.swing.JFormattedTextField();
-        txtMatricula = new javax.swing.JFormattedTextField(createFormatter("########"));
+        txtMatricula = new javax.swing.JFormattedTextField(crearFormato("########"));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -145,17 +146,32 @@ public class VistaModificarAlumno extends javax.swing.JFrame {
 
         String nombre = txtNombreAlumno.getText();
         String apellidos = txtApellidosAlumno.getText();
-        String matricula = txtMatricula.getText();
-
+        String matricula = txtMatricula.getText().replaceAll("\\s","");
+        
         Alumno unAlumno = new Alumno(nombre, apellidos, matricula);
-
-        AdministradorDeAlumno.Modificar(unAlumno);
         
-        JOptionPane.showMessageDialog(null, "Alumno modificado!", "Resultado", 
-                JOptionPane.INFORMATION_MESSAGE);
+        if(txtNombreAlumno.getText().equals("") || txtApellidosAlumno.getText().equals("")){
+            JOptionPane.showMessageDialog(null, "ERROR: Llenar los campos de nombre y apellidos",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        }else{
+            if(matricula.length()<8){
+                JOptionPane.showMessageDialog(null, "ERROR: Matricula debe ser de 8 numeros. Ej: 12345678",
+                        "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else {
+                String msjResultado = AdministradorDeAlumno.Modificar(unAlumno);
+                JOptionPane.showMessageDialog(null, msjResultado, "Resultado",
+                        JOptionPane.INFORMATION_MESSAGE);
+                if(JOptionPane.showConfirmDialog(null, "Desea modificar otro?",
+                        "Modificar", JOptionPane.YES_NO_OPTION) == JOptionPane.NO_OPTION){
+                    this.dispose();
+                }
+            }
+        }
         
-        this.dispose();
-
+        txtNombreAlumno.setText("");
+        txtApellidosAlumno.setText("");
+        txtMatricula.setText("");
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     /**
@@ -218,15 +234,15 @@ public class VistaModificarAlumno extends javax.swing.JFrame {
            }
         }
     
-     protected MaskFormatter createFormatter(String s) {
-        MaskFormatter formatter = null;
+     protected MaskFormatter crearFormato(String s) {
+        MaskFormatter formato = null;
         try {
-            formatter = new MaskFormatter(s);
+            formato = new MaskFormatter(s);
         } catch (java.text.ParseException exc) {
             System.err.println("El MaskFormatter es incorrecto: " + exc.getMessage());
             System.exit(-1);
         }
-        return formatter;
+        return formato;
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
