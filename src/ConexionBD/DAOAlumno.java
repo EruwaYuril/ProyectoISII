@@ -37,7 +37,7 @@ public class DAOAlumno {
             return 0;
           
         }catch(SQLException ex){
-            System.err.println("Error al registrar alumno. " + ex);
+            System.err.println("Error al registrar alumno. " + ex.getMessage());
             return -1;
         }
     }
@@ -77,7 +77,7 @@ public class DAOAlumno {
             return 0;
             
         }catch(SQLException ex){
-            System.err.println("Error al modificar alumno. " + ex);
+            System.err.println("Error al modificar alumno. " + ex.getMessage());
             return -1;
         }
         
@@ -93,7 +93,7 @@ public class DAOAlumno {
             System.out.println("Alumno con matricula [" + unaMatricula + "] eliminado.");
             return 0;
         }catch(SQLException ex){
-            System.err.println("Error al eliminar alumno. " + ex);
+            System.err.println("Error al eliminar alumno. " + ex.getMessage());
             return -1;
         }
     }
@@ -111,7 +111,7 @@ public class DAOAlumno {
                         resultado.getString("apellidosAlumno")));
             }
         }catch(SQLException ex){
-            System.err.println("Error al generar lista de alumnos. " + ex);
+            System.err.println("Error al generar lista de alumnos. " + ex.getMessage());
             JOptionPane.showMessageDialog(null, "Error al generar la lista de alumnos.",
                     "Error Lista", JOptionPane.ERROR_MESSAGE);
         }

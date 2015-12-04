@@ -36,10 +36,10 @@ public class BaseDatos {
             System.out.println("ConexiÃ³n exitosa!");
             return 0;
         } catch (ClassNotFoundException e){
-            System.err.println("No se encontro Driver de JBDC.");
+            System.err.println("No se encontro Driver de JBDC. " + e.getMessage());
             return -2;
         } catch (SQLException ex){
-            System.err.println("No se pudo conectar a la Base de Datos.");
+            System.err.println("No se pudo conectar a la Base de Datos. " + ex.getMessage());
             return -1;
         }
      
@@ -107,13 +107,13 @@ public class BaseDatos {
               System.out.println("Base de datos generada!");
             
         } catch (ClassNotFoundException e){
-            System.err.println("No se encontro Driver de JBDC.");
+            System.err.println("No se encontro Driver de JBDC. " + e.getMessage());
         } catch (SQLException ex) {
-            System.err.println("No se pudo generar la Base de Datos.");
+            System.err.println("No se pudo generar la Base de Datos. " + ex.getMessage());
         }
     }
     
-     private static Connection miConexion = null;
+    private static Connection miConexion = null;
     private static String baseDatos = "administradorgpo";
     
 }

@@ -153,11 +153,11 @@ public class VistaRegistrarAlumno extends javax.swing.JFrame {
                     this.dispose();
                     //new VistaRegistrarAlumno().setVisible(true);
                 }
+                txtNombreAlumno.setText("");
+                txtApellidosAlumno.setText("");
+                txtMatricula.setText("");
             }
         }
-        txtNombreAlumno.setText("");
-        txtApellidosAlumno.setText("");
-        txtMatricula.setText("");
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
