@@ -6,8 +6,10 @@
 package Vista;
 
 import Controlador.AdministradorDeProfesor;
-import ConexionBD.BaseDatos;
+import Controlador.ValidarLongitudTexto;
+import ManejoDatos.ConexionBD;
 import Modulo.Profesor;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -41,11 +43,18 @@ public class VistaRegistrarProfesor extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         btnCancelar = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
 
+        txtNombreProfesor.setDocument(new ValidarLongitudTexto(30));
         txtNombreProfesor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtNombreProfesorActionPerformed(evt);
+            }
+        });
+        txtNombreProfesor.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNombreProfesorKeyTyped(evt);
             }
         });
 
@@ -53,7 +62,21 @@ public class VistaRegistrarProfesor extends javax.swing.JFrame {
 
         jLabel2.setText("Apellidos:");
 
+        txtApellidosProfesor.setDocument(new ValidarLongitudTexto(30));
+        txtApellidosProfesor.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtApellidosProfesorKeyTyped(evt);
+            }
+        });
+
         jLabel3.setText("Clave:");
+
+        txtClaveProfesor.setDocument(new ValidarLongitudTexto(8));
+        txtClaveProfesor.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtClaveProfesorKeyTyped(evt);
+            }
+        });
 
         btnGuardar.setText("Guardar");
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
@@ -134,15 +157,52 @@ public class VistaRegistrarProfesor extends javax.swing.JFrame {
         String clave = txtClaveProfesor.getText();
 
         Profesor unProfesor = new Profesor(nombre, apellidos, clave);
-
-        AdministradorDeProfesor.Registrar(unProfesor);
-
+        
+        if(txtNombreProfesor.getText().equals("") || txtApellidosProfesor.getText().equals("")){
+            JOptionPane.showMessageDialog(null, "ERROR: Llenar todos los campos", "Error", JOptionPane.ERROR_MESSAGE);
+        }else{
+            if(clave.length()<8){
+                JOptionPane.showMessageDialog(null, "ERROR: Matricula debe ser de 8 numeros. Ej: 12345678", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else {
+                String msjResultado = AdministradorDeProfesor.Registrar(unProfesor);
+                JOptionPane.showMessageDialog(null, msjResultado);
+                if(JOptionPane.showConfirmDialog(null, "Desea registrar otro?",
+                        "Registrar", JOptionPane.YES_NO_OPTION) == JOptionPane.NO_OPTION){
+                    this.dispose();
+                }
+            }
+        }
+        txtNombreProfesor.setText("");
+        txtApellidosProfesor.setText("");
+        txtClaveProfesor.setText("");
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         // TODO add your handling code here:
         this.dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void txtNombreProfesorKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreProfesorKeyTyped
+        // TODO add your handling code here:
+         char validacion = evt.getKeyChar();
+        
+        if((validacion<'a' || validacion>'z')&&(validacion<'A' || validacion>'Z')&&(validacion<' ' || validacion>' '))evt.consume();
+    }//GEN-LAST:event_txtNombreProfesorKeyTyped
+
+    private void txtApellidosProfesorKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtApellidosProfesorKeyTyped
+        // TODO add your handling code here:
+         char validacion = evt.getKeyChar();
+        
+        if((validacion<'a' || validacion>'z')&&(validacion<'A' || validacion>'Z')&&(validacion<' ' || validacion>' '))evt.consume();
+    }//GEN-LAST:event_txtApellidosProfesorKeyTyped
+
+    private void txtClaveProfesorKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtClaveProfesorKeyTyped
+        // TODO add your handling code here:
+         char validacion = evt.getKeyChar();
+        
+        if(validacion<'0' || validacion>'9')evt.consume();
+    }//GEN-LAST:event_txtClaveProfesorKeyTyped
 
     /**
      * @param args the command line arguments
@@ -174,9 +234,8 @@ public class VistaRegistrarProfesor extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new VistaRegistrarProfesor().setVisible(true);
-                if(BaseDatos.Conectar() == -1){
-                    BaseDatos.GenerarBD();
+                if(ConexionBD.Conectar() == -1){
+                    ConexionBD.GenerarBD();
                 }
             }
         });

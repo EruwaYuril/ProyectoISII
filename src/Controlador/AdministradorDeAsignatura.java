@@ -1,6 +1,6 @@
 package Controlador;
 
-import ConexionBD.DAOAsignatura;
+import ManejoDatos.DAOAsignatura;
 import Modulo.Asignatura;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -17,36 +17,39 @@ import java.util.ArrayList;
  */
 public class AdministradorDeAsignatura {
    
-   public static void Registrar(Asignatura unaAsignatura){
+   public static String Registrar(Asignatura unaAsignatura){
         
-        String nombreAsignatura = unaAsignatura.GetNombre();
-        String claveAsignatura = unaAsignatura.GetClave();
-     
-        unaAsignatura = new Asignatura(nombreAsignatura, claveAsignatura);
-        DAOAsignatura.ConsultaRegistro(unaAsignatura);
+        if(DAOAsignatura.Guardar(unaAsignatura) == 0){
+            return "Asignatura guardado!";
+        }else{
+            return "Error al registrar asignatura.";
+        }
+        
     }
     
-    public static void Modificar(Asignatura unaAsignatura){
-       
-            String clave = unaAsignatura.GetClave();
-            String nuevoNombre = unaAsignatura.GetNombre();
-            
-            unaAsignatura = new Asignatura(clave, nuevoNombre);
-            DAOAsignatura.ConsultaModificar(unaAsignatura);
+    public static String Modificar(Asignatura unaAsignatura){
+        
+        if(DAOAsignatura.Actualizar(unaAsignatura) == 0){
+            return "Asignatura modificado!";
+        }else{
+            return "Error al modificar asignatura.";
+        }
         
     }
 
-    public static void Eliminar(String claveAsignatura){
-        
-        String unaClave = claveAsignatura;
-        
-        DAOAsignatura.ConsultaEliminar(claveAsignatura);
+    public static String Eliminar(String clave){
+     
+        if(DAOAsignatura.Borrar(clave) == 0){
+            return "Asignatura eliminado!";
+        }else{
+            return "Error al eliminar asignatura.";
+        }
     }
     
-    public ArrayList<Asignatura> ObtenerLista() throws SQLException{
+    public static ArrayList<Asignatura> ObtenerLista() {
         
       
-        ArrayList<Asignatura> lista = DAOAsignatura.ObtenerLista();
+        ArrayList<Asignatura> lista = DAOAsignatura.GenerarLista();
         
     return lista;
    }

@@ -1,8 +1,7 @@
 package Controlador;
 
-import ConexionBD.DAOAlumno;
+import ManejoDatos.DAOAlumno;
 import Modulo.Alumno;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 
@@ -21,7 +20,7 @@ public class AdministradorDeAlumno {
     
     public static String Registrar(Alumno unAlumno){
         
-        if(DAOAlumno.ConsultaRegistro(unAlumno) == 0){
+        if(FueExitoso( DAOAlumno.Guardar(unAlumno) )){
             return "Alumno guardado!";
         }else{
             return "Error al registrar alumno.";
@@ -30,13 +29,10 @@ public class AdministradorDeAlumno {
     }
     
     public static String Modificar(Alumno unAlumno){
-        int numResultado = DAOAlumno.ConsultaModificar(unAlumno);
-        if(numResultado == 0){
+        
+        if(FueExitoso( DAOAlumno.Actualizar(unAlumno) ) ){
             return "Alumno modificado!";
-        }else if(numResultado == 1){
-            return "Datos introducidos incorrectos.";
-        }
-        else{
+        }else{
             return "Error al modificar alumno.";
         }
         
@@ -44,7 +40,7 @@ public class AdministradorDeAlumno {
 
     public static String Eliminar(String matricula){
      
-        if(DAOAlumno.ConsultaEliminar(matricula) == 0){
+        if(FueExitoso( DAOAlumno.Borrar(matricula) ) ){
             return "Alumno eliminado!";
         }else{
             return "Error al eliminar alumno.";
@@ -55,7 +51,17 @@ public class AdministradorDeAlumno {
         
         ArrayList<Alumno> lista = DAOAlumno.GenerarLista();
         return lista;
+        
     }
     
+    private static final int EXITO = 0;
+    
+    private static boolean FueExitoso(int estado){
+        if(estado == EXITO){
+            return true;
+        }else{
+            return false;
+        }
+    }
     
 }

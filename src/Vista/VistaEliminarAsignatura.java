@@ -6,7 +6,10 @@
 package Vista;
 
 import Controlador.AdministradorDeAsignatura;
-import ConexionBD.BaseDatos;
+import Controlador.ValidarLongitudTexto;
+import ManejoDatos.ConexionBD;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -19,6 +22,11 @@ public class VistaEliminarAsignatura extends javax.swing.JFrame {
      */
     public VistaEliminarAsignatura() {
         initComponents();
+    }
+    
+    public VistaEliminarAsignatura(String claveAEliminar){
+        initComponents();
+        txtClaveAsignatura.setText(claveAEliminar);
     }
 
     /**
@@ -36,7 +44,15 @@ public class VistaEliminarAsignatura extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
+
+        txtClaveAsignatura.setDocument(new ValidarLongitudTexto(8));
+        txtClaveAsignatura.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtClaveAsignaturaKeyTyped(evt);
+            }
+        });
 
         btnEliminar.setText("Eliminar");
         btnEliminar.addActionListener(new java.awt.event.ActionListener() {
@@ -98,7 +114,22 @@ public class VistaEliminarAsignatura extends javax.swing.JFrame {
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
 
         String clave = txtClaveAsignatura.getText();
-
+        
+        if(clave.length()<8){
+            JOptionPane.showMessageDialog(null, "ERROR: Clave debe ser de 8 numeros. Ej: 12345678", 
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        else {
+            String msjResultado = AdministradorDeAsignatura.Eliminar(clave);
+            JOptionPane.showMessageDialog(null, msjResultado,
+                    "Resultado", JOptionPane.INFORMATION_MESSAGE);
+            if(JOptionPane.showConfirmDialog(null, "Desea eliminar otra?",
+                    "Registrar", JOptionPane.YES_NO_OPTION) == JOptionPane.NO_OPTION){
+                this.dispose();
+            }
+        }
+        
+        txtClaveAsignatura.setText("");
         AdministradorDeAsignatura.Eliminar(clave);
 
     }//GEN-LAST:event_btnEliminarActionPerformed
@@ -107,6 +138,13 @@ public class VistaEliminarAsignatura extends javax.swing.JFrame {
         // TODO add your handling code here:
         this.dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void txtClaveAsignaturaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtClaveAsignaturaKeyTyped
+        // TODO add your handling code here:
+        char validacion = evt.getKeyChar();
+        
+        if(validacion<'0' || validacion>'9')evt.consume();
+    }//GEN-LAST:event_txtClaveAsignaturaKeyTyped
 
     /**
      * @param args the command line arguments
@@ -138,9 +176,8 @@ public class VistaEliminarAsignatura extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new VistaEliminarAsignatura().setVisible(true);
-                if(BaseDatos.Conectar() == -1){
-                    BaseDatos.GenerarBD();
+                if(ConexionBD.Conectar() == -1){
+                    ConexionBD.GenerarBD();
                 }
             }
         });

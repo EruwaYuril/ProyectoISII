@@ -16,7 +16,11 @@ public class Asignatura {
         this.nombre = nombre;
         this.clave = clave;
     }
-
+    
+    public Asignatura(){
+        this.nombre = "";
+        this.clave = "";
+    }
     public void SetNombre(String nombre) {
         this.nombre = nombre;
     }

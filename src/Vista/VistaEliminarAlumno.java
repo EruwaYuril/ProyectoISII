@@ -5,7 +5,7 @@
 package Vista;
 
 import Controlador.AdministradorDeAlumno;
-import ConexionBD.BaseDatos;
+import ManejoDatos.ConexionBD;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.text.MaskFormatter;
@@ -21,12 +21,10 @@ public class VistaEliminarAlumno extends javax.swing.JFrame {
      */
     public VistaEliminarAlumno() {
         initComponents();
-        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
     
     public VistaEliminarAlumno(String matriculaAEliminar){
         initComponents();
-        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         txtMatricula.setText(matriculaAEliminar);
     }
 
@@ -45,7 +43,8 @@ public class VistaEliminarAlumno extends javax.swing.JFrame {
         btnCancelar = new javax.swing.JButton();
         txtMatricula = new javax.swing.JFormattedTextField(crearFormato("########"));
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
 
         jLabel1.setText("Eliminar Alumno");
 
@@ -159,9 +158,8 @@ public class VistaEliminarAlumno extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new VistaEliminarAlumno().setVisible(true);
-                if(BaseDatos.Conectar() == -1){
-                    BaseDatos.GenerarBD();
+                if(ConexionBD.Conectar() == -1){
+                    ConexionBD.GenerarBD();
                 }
             }
         });

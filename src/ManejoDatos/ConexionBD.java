@@ -1,4 +1,4 @@
-package ConexionBD;
+package ManejoDatos;
 
 
 import java.sql.Connection;
@@ -21,7 +21,7 @@ import java.sql.Statement;
  * respectivas tablas en caso que no existan.
  * 
  */
-public class BaseDatos {
+public class ConexionBD {
     
     
     public static int Conectar(){
@@ -33,26 +33,27 @@ public class BaseDatos {
             String contrasenia = "";
             miConexion = DriverManager.getConnection(servidor, usuario, contrasenia);
             
-            System.out.println("ConexiÃ³n exitosa!");
-            return 0;
+            System.out.println("Conexion exitosa!");
+            DAOBase.setConexion(miConexion);
+            return EXITO;
         } catch (ClassNotFoundException e){
             System.err.println("No se encontro Driver de JBDC. " + e.getMessage());
-            return -2;
+            return ERROR_JBDC;
         } catch (SQLException ex){
-            System.err.println("No se pudo conectar a la Base de Datos. " + ex.getMessage());
-            return -1;
+            System.err.println("No se pudo conectar a la Base de Datos. " + ex.getSQLState());
+            return ERROR_CONEXION_BD;
         }
      
     }
     
-    public static Connection ObtenerConexion(){
-        if(miConexion == null){
-            System.err.println("No hay conexion con la base de datos.");
-        }
-        return miConexion;
-    }
+//    public static Connection ObtenerConexion(){
+//        if(miConexion == null){
+//            System.err.println("No hay conexion con la base de datos.");
+//        }
+//        return miConexion;
+//    }
     
-    public static void GenerarBD(){
+    public static int GenerarBD(){
         Statement consulta;
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -105,15 +106,21 @@ public class BaseDatos {
                     ");");
               
               System.out.println("Base de datos generada!");
+              return EXITO;
             
         } catch (ClassNotFoundException e){
             System.err.println("No se encontro Driver de JBDC. " + e.getMessage());
+            return ERROR_JBDC;
         } catch (SQLException ex) {
-            System.err.println("No se pudo generar la Base de Datos. " + ex.getMessage());
+            System.err.println("No se pudo generar la Base de Datos. " + ex.getSQLState());
+            return ERROR_CONEXION_BD;
         }
     }
     
     private static Connection miConexion = null;
     private static String baseDatos = "administradorgpo";
+    private static final int EXITO = 0;
+    private static final int ERROR_CONEXION_BD = -1;
+    private static final int ERROR_JBDC = -2;
     
 }

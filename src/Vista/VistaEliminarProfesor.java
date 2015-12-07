@@ -6,7 +6,10 @@
 package Vista;
 
 import Controlador.AdministradorDeProfesor;
-import ConexionBD.BaseDatos;
+import Controlador.ValidarLongitudTexto;
+import ManejoDatos.ConexionBD;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -19,6 +22,11 @@ public class VistaEliminarProfesor extends javax.swing.JFrame {
      */
     public VistaEliminarProfesor() {
         initComponents();
+    }
+    
+    public VistaEliminarProfesor(String claveAEliminar){
+        initComponents();
+        txtClaveProfesor.setText(claveAEliminar);
     }
 
     /**
@@ -36,9 +44,17 @@ public class VistaEliminarProfesor extends javax.swing.JFrame {
         btnCancelar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
 
         jLabel2.setText("Clave");
+
+        txtClaveProfesor.setDocument(new ValidarLongitudTexto(8));
+        txtClaveProfesor.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtClaveProfesorKeyTyped(evt);
+            }
+        });
 
         btnEliminar.setText("Eliminar");
         btnEliminar.addActionListener(new java.awt.event.ActionListener() {
@@ -98,15 +114,35 @@ public class VistaEliminarProfesor extends javax.swing.JFrame {
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
 
         String clave = txtClaveProfesor.getText();
-
-        AdministradorDeProfesor.Eliminar(clave);
-
+        
+        if(clave.length()<8){
+            JOptionPane.showMessageDialog(null, "ERROR: Clave debe ser de 8 numeros. Ej: 12345678", 
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        else {
+            String msjResultado = AdministradorDeProfesor.Eliminar(clave);
+            JOptionPane.showMessageDialog(null, msjResultado,
+                    "Resultado", JOptionPane.INFORMATION_MESSAGE);
+            if(JOptionPane.showConfirmDialog(null, "Desea eliminar otro?",
+                    "Registrar", JOptionPane.YES_NO_OPTION) == JOptionPane.NO_OPTION){
+                this.dispose();
+            }
+        }
+        
+        txtClaveProfesor.setText("");
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         // TODO add your handling code here:
         this.dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void txtClaveProfesorKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtClaveProfesorKeyTyped
+        // TODO add your handling code here:
+        char validacion = evt.getKeyChar();
+        
+        if(validacion < '0' || validacion > '9')evt.consume();
+    }//GEN-LAST:event_txtClaveProfesorKeyTyped
 
     /**
      * @param args the command line arguments
@@ -138,9 +174,8 @@ public class VistaEliminarProfesor extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new VistaEliminarProfesor().setVisible(true);
-                if(BaseDatos.Conectar() == -1){
-                    BaseDatos.GenerarBD();
+                if(ConexionBD.Conectar() == -1){
+                    ConexionBD.GenerarBD();
                 }
             }
         });

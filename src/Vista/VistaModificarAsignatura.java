@@ -6,8 +6,11 @@
 package Vista;
 
 import Controlador.AdministradorDeAsignatura;
-import ConexionBD.BaseDatos;
+import Controlador.ValidarLongitudTexto;
+import ManejoDatos.ConexionBD;
 import Modulo.Asignatura;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -20,6 +23,12 @@ public class VistaModificarAsignatura extends javax.swing.JFrame {
      */
     public VistaModificarAsignatura() {
         initComponents();
+    }
+    
+    public VistaModificarAsignatura(Asignatura asignaturaAModificar){
+        initComponents();
+        txtNombreAsignatura.setText(asignaturaAModificar.GetNombre());
+        txtClaveAsignatura.setText(asignaturaAModificar.GetClave());
     }
 
     /**
@@ -36,14 +45,21 @@ public class VistaModificarAsignatura extends javax.swing.JFrame {
         btnCancelar = new javax.swing.JButton();
         btnGuardar = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
-        txtClaveAsinatura = new javax.swing.JTextField();
+        txtClaveAsignatura = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
 
+        txtNombreAsignatura.setDocument(new ValidarLongitudTexto(30));
         txtNombreAsignatura.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtNombreAsignaturaActionPerformed(evt);
+            }
+        });
+        txtNombreAsignatura.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNombreAsignaturaKeyTyped(evt);
             }
         });
 
@@ -64,6 +80,13 @@ public class VistaModificarAsignatura extends javax.swing.JFrame {
         });
 
         jLabel4.setText("Modificar Asignatura");
+
+        txtClaveAsignatura.setDocument(new ValidarLongitudTexto(8));
+        txtClaveAsignatura.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtClaveAsignaturaKeyTyped(evt);
+            }
+        });
 
         jLabel3.setText("Clave:");
 
@@ -87,7 +110,7 @@ public class VistaModificarAsignatura extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
                         .addComponent(btnCancelar))
                     .addComponent(txtNombreAsignatura)
-                    .addComponent(txtClaveAsinatura))
+                    .addComponent(txtClaveAsignatura))
                 .addGap(88, 88, 88))
         );
         layout.setVerticalGroup(
@@ -102,7 +125,7 @@ public class VistaModificarAsignatura extends javax.swing.JFrame {
                 .addGap(45, 45, 45)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(txtClaveAsinatura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtClaveAsignatura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(86, 86, 86)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnGuardar)
@@ -125,12 +148,47 @@ public class VistaModificarAsignatura extends javax.swing.JFrame {
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
 
         String nombre = txtNombreAsignatura.getText();
-        String clave = txtClaveAsinatura.getText();
+        String clave = txtClaveAsignatura.getText();
 
         Asignatura unaAsignatura = new Asignatura(nombre, clave);
-
-        AdministradorDeAsignatura.Modificar(unaAsignatura);
+        
+        if(txtNombreAsignatura.getText().equals("")){
+            JOptionPane.showMessageDialog(null, "ERROR: Llenar todos los  campos",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        }else{
+            if(clave.length()<8){
+                JOptionPane.showMessageDialog(null, "ERROR: Clave debe ser de 8 numeros. Ej: 12345678",
+                        "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else {
+                String msjResultado = AdministradorDeAsignatura.Modificar(unaAsignatura);
+                JOptionPane.showMessageDialog(null, msjResultado, "Resultado",
+                        JOptionPane.INFORMATION_MESSAGE);
+                if(JOptionPane.showConfirmDialog(null, "Desea modificar otra?",
+                        "Modificar", JOptionPane.YES_NO_OPTION) == JOptionPane.NO_OPTION){
+                    this.dispose();
+                }
+            }
+        }
+        
+        txtNombreAsignatura.setText("");
+        txtClaveAsignatura.setText("");
+        
     }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void txtNombreAsignaturaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreAsignaturaKeyTyped
+        // TODO add your handling code here:
+        char validacion = evt.getKeyChar();
+        
+        if((validacion<'a' || validacion>'z')&&(validacion<'A' || validacion>'Z')&&(validacion<' ' || validacion>' ')&&(validacion<'0' || validacion>'9'))evt.consume();
+    }//GEN-LAST:event_txtNombreAsignaturaKeyTyped
+
+    private void txtClaveAsignaturaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtClaveAsignaturaKeyTyped
+        // TODO add your handling code here:
+        char validacion = evt.getKeyChar();
+        
+        if(validacion<'0' || validacion>'9')evt.consume();
+    }//GEN-LAST:event_txtClaveAsignaturaKeyTyped
 
     /**
      * @param args the command line arguments
@@ -163,8 +221,8 @@ public class VistaModificarAsignatura extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new VistaModificarAsignatura().setVisible(true);
-                if(BaseDatos.Conectar() == -1){
-                    BaseDatos.GenerarBD();
+                if(ConexionBD.Conectar() == -1){
+                    ConexionBD.GenerarBD();
                 }
             }
         });
@@ -176,7 +234,7 @@ public class VistaModificarAsignatura extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JTextField txtClaveAsinatura;
+    private javax.swing.JTextField txtClaveAsignatura;
     private javax.swing.JTextField txtNombreAsignatura;
     // End of variables declaration//GEN-END:variables
 }

@@ -1,8 +1,7 @@
 package Controlador;
 
-import ConexionBD.DAOProfesor;
+import ManejoDatos.DAOProfesor;
 import Modulo.Profesor;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 
@@ -17,36 +16,38 @@ import java.util.ArrayList;
  */
 public class AdministradorDeProfesor {
 
-    public static void Registrar(Profesor unProfesor){
+   public static String Registrar(Profesor unProfesor){
         
-        String nombreProfesor = unProfesor.GetNombre();
-        String apellidosProfesor = unProfesor.GetApellidos();
-        String claveProfesor = unProfesor.GetClave();
+        if(DAOProfesor.Guardar(unProfesor) == 0){
+            return "Profesor guardado!";
+        }else{
+            return "Error al registrar profesor.";
+        }
         
-        unProfesor = new Profesor(nombreProfesor, apellidosProfesor, claveProfesor);
-        DAOProfesor.ConsultaRegistro(unProfesor);  
     }
     
-    public static void Modificar(Profesor unProfesor){
-       
+    public static String Modificar(Profesor unProfesor){
         
-            String claveProfesor = unProfesor.GetClave();
-            String nuevoNombre = unProfesor.GetNombre();
-            String nuevosApellidos = unProfesor.GetApellidos();
-            
-            unProfesor = new Profesor(claveProfesor, nuevoNombre, nuevosApellidos);
-            DAOProfesor.ConsultaModificar(unProfesor);
+        if(DAOProfesor.Actualizar(unProfesor) == 0){
+            return "Profesor modificado!";
+        }else{
+            return "Error al modificar profesor.";
+        }
+        
     }
 
-    public static void Eliminar(String claveProfesor){
-        
-        String unaClave = claveProfesor;
-        DAOProfesor.ConsultaEliminar(claveProfesor);
+    public static String Eliminar(String clave){
+     
+        if(DAOProfesor.Borrar(clave) == 0){
+            return "Profesor eliminado!";
+        }else{
+            return "Error al eliminar profesor.";
+        }
     }
     
-    public static ArrayList<Profesor> ObtenerLista() throws SQLException{
+    public static ArrayList<Profesor> ObtenerLista() {
         
-        ArrayList<Profesor> lista = DAOProfesor.ObtenerLista();
+        ArrayList<Profesor> lista = DAOProfesor.GenerarLista();
         
     return lista;
    }

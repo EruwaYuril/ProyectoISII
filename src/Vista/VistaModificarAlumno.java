@@ -5,15 +5,12 @@
 package Vista;
 
 import Controlador.AdministradorDeAlumno;
-import ConexionBD.BaseDatos;
+import ManejoDatos.ConexionBD;
 import Modulo.Alumno;
-import java.util.regex.Pattern;
+import Controlador.ValidarLongitudTexto;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.text.AttributeSet;
-import javax.swing.text.BadLocationException;
 import javax.swing.text.MaskFormatter;
-import javax.swing.text.PlainDocument;
 
 /**
  *
@@ -27,12 +24,10 @@ public class VistaModificarAlumno extends javax.swing.JFrame {
     
     public VistaModificarAlumno() {
         initComponents();
-        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
     
     public VistaModificarAlumno(Alumno alumnoAModificar){
         initComponents();
-        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         txtNombreAlumno.setText(alumnoAModificar.GetNombre());
         txtApellidosAlumno.setText(alumnoAModificar.GetApellidos());
         txtMatricula.setText(alumnoAModificar.GetMatricula());
@@ -57,7 +52,8 @@ public class VistaModificarAlumno extends javax.swing.JFrame {
         txtApellidosAlumno = new javax.swing.JFormattedTextField();
         txtMatricula = new javax.swing.JFormattedTextField(crearFormato("########"));
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
 
         btnCancelar.setText("Cancelar");
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
@@ -81,9 +77,19 @@ public class VistaModificarAlumno extends javax.swing.JFrame {
 
         jLabel1.setText("Nombre:");
 
-        txtNombreAlumno.setDocument(new JTextFieldLimit(30));
+        txtNombreAlumno.setDocument(new ValidarLongitudTexto(30));
+        txtNombreAlumno.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNombreAlumnoKeyTyped(evt);
+            }
+        });
 
-        txtApellidosAlumno.setDocument(new JTextFieldLimit(30));
+        txtApellidosAlumno.setDocument(new ValidarLongitudTexto(30));
+        txtApellidosAlumno.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtApellidosAlumnoKeyTyped(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -150,10 +156,10 @@ public class VistaModificarAlumno extends javax.swing.JFrame {
         
         Alumno unAlumno = new Alumno(nombre, apellidos, matricula);
         
-//        if(txtNombreAlumno.getText().equals("") || txtApellidosAlumno.getText().equals("")){
-//            JOptionPane.showMessageDialog(null, "ERROR: Llenar los campos de nombre y apellidos",
-//                    "Error", JOptionPane.ERROR_MESSAGE);
-//        }else{
+        if(txtNombreAlumno.getText().equals("") || txtApellidosAlumno.getText().equals("")){
+            JOptionPane.showMessageDialog(null, "ERROR: Llenar todos los  campos",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        }else{
             if(matricula.length()<8){
                 JOptionPane.showMessageDialog(null, "ERROR: Matricula debe ser de 8 numeros. Ej: 12345678",
                         "Error", JOptionPane.ERROR_MESSAGE);
@@ -166,13 +172,27 @@ public class VistaModificarAlumno extends javax.swing.JFrame {
                         "Modificar", JOptionPane.YES_NO_OPTION) == JOptionPane.NO_OPTION){
                     this.dispose();
                 }
-//            }
+            }
         }
         
         txtNombreAlumno.setText("");
         txtApellidosAlumno.setText("");
         txtMatricula.setText("");
     }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void txtNombreAlumnoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreAlumnoKeyTyped
+        // TODO add your handling code here:
+        char validacion = evt.getKeyChar();
+        
+        if((validacion<'a' || validacion>'z')&&(validacion<'A' || validacion>'Z')&&(validacion<' ' || validacion>' '))evt.consume();
+    }//GEN-LAST:event_txtNombreAlumnoKeyTyped
+
+    private void txtApellidosAlumnoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtApellidosAlumnoKeyTyped
+        // TODO add your handling code here:
+        char validacion = evt.getKeyChar();
+        
+        if((validacion<'a' || validacion>'z')&&(validacion<'A' || validacion>'Z')&&(validacion<' ' || validacion>' '))evt.consume();
+    }//GEN-LAST:event_txtApellidosAlumnoKeyTyped
 
     /**
      * @param args the command line arguments
@@ -204,35 +224,12 @@ public class VistaModificarAlumno extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                //new VistaModificarAlumno().setVisible(true);
-                if(BaseDatos.Conectar() == -1){
-                    BaseDatos.GenerarBD();
+                if(ConexionBD.Conectar() == -1){
+                    ConexionBD.GenerarBD();
                 }
             }
         });
     }
-    
-        private class JTextFieldLimit extends PlainDocument {
-          private int limit;
-          private boolean toUppercase = false;
-           
-          JTextFieldLimit(int limit) {
-           super();
-           this.limit = limit;
-           }
-          
-          @Override
-          public void insertString
-            (int offset, String  str, AttributeSet attr)
-              throws BadLocationException {
-           if (str == null) return;
- 
-           if ((getLength() + str.length()) <= limit) {
-             if (toUppercase) str = str.toUpperCase();
-             super.insertString(offset, str, attr);
-             }
-           }
-        }
     
      protected MaskFormatter crearFormato(String s) {
         MaskFormatter formato = null;

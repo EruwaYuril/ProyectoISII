@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ConexionBD;
+package ManejoDatos;
 
 import Modulo.Profesor;
 import java.sql.Connection;
@@ -12,19 +12,20 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author Cristian Xool
  */
 public class DAOProfesor {
-     public static void ConsultaRegistro(Profesor unProfesor){
+     public static int Guardar(Profesor unProfesor){
         
         String nombreProfesor = unProfesor.GetNombre();
         String apellidosProfesor = unProfesor.GetApellidos();
         String claveProfesor = unProfesor.GetClave();
      
-        Connection miConexion = BaseDatos.ObtenerConexion(); 
+        Connection miConexion = ConexionBD.ObtenerConexion(); 
         try{
             PreparedStatement psd = miConexion.prepareStatement("INSERT INTO "+
                     "profesores (claveProfesor, nombreProfesor, apellidosProfesor) "+
@@ -35,15 +36,17 @@ public class DAOProfesor {
             psd.executeUpdate();
             System.out.println("Profesor: " + claveProfesor + " " + nombreProfesor + 
                     " " + apellidosProfesor + ", registrado.");
+        return 0;
           
         }catch(SQLException ex){
-            System.err.println("Error al registrar profesor.");
+            System.err.println("Error al registrar profesor. " + ex);
+            return -1;
         }
     }
     
-    public static void ConsultaModificar(Profesor unProfesor){
+    public static int Actualizar(Profesor unProfesor){
        
-        Connection miConexion = BaseDatos.ObtenerConexion();
+        Connection miConexion = ConexionBD.ObtenerConexion();
         Profesor nuevosDatos = unProfesor;
         try{
             String claveProfesor = unProfesor.GetClave();
@@ -69,30 +72,35 @@ public class DAOProfesor {
                 System.out.println("Nombre y apellidos del registro con clave " + claveProfesor +
                         " actualizado.");
             }else{
-                System.err.println("Datos para modificar profesor incorrectos.");
+                System.err.println("Datos para modificar alumno incorrectos.");
+                return 1;
             }
             
+            return 0;
+            
         }catch(SQLException ex){
-            System.err.println("Error al modificar profesor.");
+            System.err.println("Error al modificar alumno. " + ex);
+            return -1;
         }
-        
     }
 
-    public static void ConsultaEliminar(String claveProfesor){
-        Connection miConexion = BaseDatos.ObtenerConexion();
+    public static int Borrar(String claveProfesor){
+        Connection miConexion = ConexionBD.ObtenerConexion();
         String unaClave = claveProfesor;
         
         try{
             Statement consulta = miConexion.createStatement();
             consulta.executeUpdate("DELETE FROM profesores WHERE claveProfesor = " + unaClave + ";");
             System.out.println("Profesor con clave [" + unaClave + "] eliminado.");
+            return 0;
         }catch(SQLException ex){
-            System.err.println("Error al eliminar profesor.");
+            System.err.println("Error al eliminar alumno. " + ex);
+            return -1;
         }
     }
     
-    public static ArrayList<Profesor> ObtenerLista() throws SQLException{
-        Connection miConexion = BaseDatos.ObtenerConexion();
+    public static ArrayList<Profesor> GenerarLista() {
+        Connection miConexion = ConexionBD.ObtenerConexion();
       
         ArrayList<Profesor> lista = new ArrayList<>();
         try{
@@ -102,7 +110,9 @@ public class DAOProfesor {
                 lista.add(new Profesor(resultado.getString("claveProfesor"), resultado.getString("nombreProfesor"), resultado.getString("apellidosProfesor")));
             }
         }catch(SQLException ex){
-            throw new SQLException(ex);
+            System.err.println("Error al generar lista de alumnos. " + ex);
+            JOptionPane.showMessageDialog(null, "Error al generar la lista de alumnos.",
+                    "Error Lista", JOptionPane.ERROR_MESSAGE);
         }
     return lista;
    }

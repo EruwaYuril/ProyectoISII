@@ -6,8 +6,11 @@
 package Vista;
 
 import Controlador.AdministradorDeProfesor;
-import ConexionBD.BaseDatos;
+import Controlador.ValidarLongitudTexto;
+import ManejoDatos.ConexionBD;
 import Modulo.Profesor;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -20,6 +23,13 @@ public class VistaModificarProfesor extends javax.swing.JFrame {
      */
     public VistaModificarProfesor() {
         initComponents();
+    }
+    
+    public VistaModificarProfesor(Profesor profesorAModificar){
+        initComponents();
+        txtNombreProfesor.setText(profesorAModificar.GetNombre());
+        txtApellidosProfesor.setText(profesorAModificar.GetApellidos());
+        txtClaveProfesor.setText(profesorAModificar.GetClave());
     }
 
     /**
@@ -41,7 +51,8 @@ public class VistaModificarProfesor extends javax.swing.JFrame {
         txtNombreProfesor = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
 
         btnCancelar.setText("Cancelar");
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
@@ -59,13 +70,33 @@ public class VistaModificarProfesor extends javax.swing.JFrame {
 
         jLabel4.setText("Modificar Profesor");
 
+        txtClaveProfesor.setDocument(new ValidarLongitudTexto(8));
+        txtClaveProfesor.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtClaveProfesorKeyTyped(evt);
+            }
+        });
+
         jLabel3.setText("Clave:");
+
+        txtApellidosProfesor.setDocument(new ValidarLongitudTexto(30));
+        txtApellidosProfesor.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtApellidosProfesorKeyTyped(evt);
+            }
+        });
 
         jLabel2.setText("Apellidos:");
 
+        txtNombreProfesor.setDocument(new ValidarLongitudTexto(30));
         txtNombreProfesor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtNombreProfesorActionPerformed(evt);
+            }
+        });
+        txtNombreProfesor.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNombreProfesorKeyTyped(evt);
             }
         });
 
@@ -135,13 +166,55 @@ public class VistaModificarProfesor extends javax.swing.JFrame {
         String clave = txtClaveProfesor.getText();
 
         Profesor unProfesor = new Profesor(nombre, apellidos, clave);
-
-        AdministradorDeProfesor.Modificar(unProfesor);
+        
+        if(txtNombreProfesor.getText().equals("") || txtApellidosProfesor.getText().equals("")){
+            JOptionPane.showMessageDialog(null, "ERROR: Llenar todos los  campos",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        }else{
+            if(clave.length()<8){
+                JOptionPane.showMessageDialog(null, "ERROR: Matricula debe ser de 8 numeros. Ej: 12345678",
+                        "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else {
+                String msjResultado = AdministradorDeProfesor.Modificar(unProfesor);
+                JOptionPane.showMessageDialog(null, msjResultado, "Resultado",
+                        JOptionPane.INFORMATION_MESSAGE);
+                if(JOptionPane.showConfirmDialog(null, "Desea modificar otro?",
+                        "Modificar", JOptionPane.YES_NO_OPTION) == JOptionPane.NO_OPTION){
+                    this.dispose();
+                }
+            }
+        }
+        
+        txtNombreProfesor.setText("");
+        txtApellidosProfesor.setText("");
+        txtClaveProfesor.setText("");
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void txtNombreProfesorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreProfesorActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtNombreProfesorActionPerformed
+
+    private void txtNombreProfesorKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreProfesorKeyTyped
+        // TODO add your handling code here:
+        char validacion = evt.getKeyChar();
+        
+        if((validacion < 'a' || validacion > 'z')&&(validacion < 'A' || validacion > 'Z')&&(validacion < ' ' || validacion > ' '))evt.consume();
+    }//GEN-LAST:event_txtNombreProfesorKeyTyped
+
+    private void txtApellidosProfesorKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtApellidosProfesorKeyTyped
+        // TODO add your handling code here:
+        char validacion = evt.getKeyChar();
+        
+        if((validacion < 'a' || validacion > 'z')&&(validacion < 'A' || validacion > 'Z')&&(validacion < ' ' || validacion > ' '))evt.consume();
+    }//GEN-LAST:event_txtApellidosProfesorKeyTyped
+
+    private void txtClaveProfesorKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtClaveProfesorKeyTyped
+        // TODO add your handling code here:
+        char validacion = evt.getKeyChar();
+        
+        if(validacion < '0' || validacion > '9')evt.consume();
+    }//GEN-LAST:event_txtClaveProfesorKeyTyped
 
     /**
      * @param args the command line arguments
@@ -173,9 +246,8 @@ public class VistaModificarProfesor extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new VistaModificarProfesor().setVisible(true);
-                if(BaseDatos.Conectar() == -1){
-                    BaseDatos.GenerarBD();
+                if(ConexionBD.Conectar() == -1){
+                    ConexionBD.GenerarBD();
                 }
             }
         });

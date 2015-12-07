@@ -6,8 +6,11 @@
 package Vista;
 
 import Controlador.AdministradorDeAsignatura;
-import ConexionBD.BaseDatos;
+import ManejoDatos.ConexionBD;
 import Modulo.Asignatura;
+import javax.swing.JFrame;
+import Controlador.ValidarLongitudTexto;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -39,17 +42,31 @@ public class VistaRegistrarAsignatura extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         btnCancelar = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
 
+        txtNombreAsignatura.setDocument(new ValidarLongitudTexto(30));
         txtNombreAsignatura.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtNombreAsignaturaActionPerformed(evt);
+            }
+        });
+        txtNombreAsignatura.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNombreAsignaturaKeyTyped(evt);
             }
         });
 
         jLabel1.setText("Nombre:");
 
         jLabel3.setText("Clave");
+
+        txtClaveAsignatura.setDocument(new ValidarLongitudTexto(8));
+        txtClaveAsignatura.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtClaveAsignaturaKeyTyped(evt);
+            }
+        });
 
         btnGuardar.setText("Guardar");
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
@@ -124,8 +141,22 @@ public class VistaRegistrarAsignatura extends javax.swing.JFrame {
         String clave = txtClaveAsignatura.getText();
 
         Asignatura unaAsignatura = new Asignatura(nombre, clave);
-
-        AdministradorDeAsignatura.Registrar(unaAsignatura);
+        
+        if(txtNombreAsignatura.getText().equals("")){
+            JOptionPane.showMessageDialog(null, "ERROR: Llenar todos los campos", "Error", JOptionPane.ERROR_MESSAGE);
+        }else{
+            if(clave.length()<8){
+                JOptionPane.showMessageDialog(null, "ERROR: Clave debe ser de 8 numeros. Ej: 12345678", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else {
+                String msjResultado = AdministradorDeAsignatura.Registrar(unaAsignatura);
+                JOptionPane.showMessageDialog(null, msjResultado);
+                if(JOptionPane.showConfirmDialog(null, "Desea registrar otra?",
+                        "Registrar", JOptionPane.YES_NO_OPTION) == JOptionPane.NO_OPTION){
+                    this.dispose();
+                }
+            }
+        }
 
     }//GEN-LAST:event_btnGuardarActionPerformed
 
@@ -133,6 +164,20 @@ public class VistaRegistrarAsignatura extends javax.swing.JFrame {
         // TODO add your handling code here:
         this.dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void txtNombreAsignaturaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreAsignaturaKeyTyped
+        // TODO add your handling code here:
+        char validacion = evt.getKeyChar();
+        
+        if((validacion<'a' || validacion>'z')&&(validacion<'A' || validacion>'Z')&&(validacion<' ' || validacion>' ')&&(validacion<'0' || validacion>'9'))evt.consume();
+    }//GEN-LAST:event_txtNombreAsignaturaKeyTyped
+
+    private void txtClaveAsignaturaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtClaveAsignaturaKeyTyped
+        // TODO add your handling code here:
+        char validacion = evt.getKeyChar();
+        
+        if(validacion<'0' || validacion>'9')evt.consume();
+    }//GEN-LAST:event_txtClaveAsignaturaKeyTyped
 
     /**
      * @param args the command line arguments
@@ -164,13 +209,23 @@ public class VistaRegistrarAsignatura extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new VistaRegistrarAsignatura().setVisible(true);
-                if(BaseDatos.Conectar() == -1){
-                    BaseDatos.GenerarBD();
+                if(ConexionBD.Conectar() == -1){
+                    ConexionBD.GenerarBD();
                 }
             }
         });
     }
+    
+    /*protected MaskFormatter crearFormato(String s) {
+        MaskFormatter formato = null;
+        try {
+            formato = new MaskFormatter(s);
+        } catch (java.text.ParseException exc) {
+            System.err.println("El MaskFormatter es incorrecto: " + exc.getMessage());
+            System.exit(-1);
+        }
+        return formato;
+    }*/
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;

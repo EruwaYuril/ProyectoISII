@@ -4,7 +4,7 @@
  */
 package Vista;
 
-import ConexionBD.BaseDatos;
+import ManejoDatos.ConexionBD;
 
 /**
  *
@@ -112,20 +112,22 @@ public class VistaGestionGrupos extends javax.swing.JFrame {
 
     private void btnAdminAsignaturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdminAsignaturaActionPerformed
 
-        VistaAdministradorAsignatura ventanaAdminAsignatura = new VistaAdministradorAsignatura();
+        VistaAdministradorAsignatura ventanaAdminAsignatura = new VistaAdministradorAsignatura(this);
         ventanaAdminAsignatura.setVisible(true);
+        this.setVisible(false);
     }//GEN-LAST:event_btnAdminAsignaturaActionPerformed
 
     private void btnAdminAlumnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdminAlumnoActionPerformed
-        VistaListaAlumno ventanaAdminAlumno = new VistaListaAlumno(this);
+        VistaAdministradorAlumno ventanaAdminAlumno = new VistaAdministradorAlumno(this);
         ventanaAdminAlumno.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_btnAdminAlumnoActionPerformed
 
     private void btnAdminProfesorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdminProfesorActionPerformed
         
-        VistaAdministradorProfesor ventanaAdminProfesor = new VistaAdministradorProfesor();
+        VistaAdministradorProfesor ventanaAdminProfesor = new VistaAdministradorProfesor(this);
         ventanaAdminProfesor.setVisible(true);
+        this.setVisible(false);
     }//GEN-LAST:event_btnAdminProfesorActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
@@ -164,8 +166,8 @@ public class VistaGestionGrupos extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new VistaGestionGrupos().setVisible(true);
-                if(BaseDatos.Conectar() == -1){
-                    BaseDatos.GenerarBD();
+                if(ConexionBD.Conectar() != 0){
+                    ConexionBD.GenerarBD();
                 }
             }
         });

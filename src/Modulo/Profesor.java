@@ -18,6 +18,12 @@ public class Profesor {
         this.apellidos = apellidos;
         this.clave = clave;
     }
+    
+    public Profesor(){
+        this.nombre = "";
+        this.apellidos = "";
+        this.clave = "";
+    }
 
     public void SetNombre(String nombre) {
         this.nombre = nombre;
@@ -27,7 +33,7 @@ public class Profesor {
         this.apellidos = apellidos;
     }
 
-    public void SetClaveProfesor(String clave) {
+    public void SetClave(String clave) {
         this.clave = clave;
     }
 
