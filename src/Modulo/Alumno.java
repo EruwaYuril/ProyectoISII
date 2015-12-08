@@ -9,7 +9,7 @@ package Modulo;
  */
 public class Alumno {
     
-    //HHolaaaaaa
+    //HHolaaaaaaoijijiji
     
     private String nombre; 
     private String apellidos; 
