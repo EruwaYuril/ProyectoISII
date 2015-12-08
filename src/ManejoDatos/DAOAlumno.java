@@ -27,7 +27,7 @@ public class DAOAlumno extends DAOBase{
          String matricula = unAlumno.GetMatricula();
          String valores = "'" + matricula + "', '"+ nombreAlumno + "', '" +
                  apellidosAlumno + "'";
-         
+                  
          int estado = EjecutarGuardado(nombreTabla, valores);
          
          if(FueExitoso(estado)){
@@ -46,7 +46,7 @@ public class DAOAlumno extends DAOBase{
          String nuevoNombre = unAlumno.GetNombre();
          String nuevosApellidos = unAlumno.GetApellidos();
          
-         String nombreTabla = "Alumnos";
+         String nombreTabla = "alumnos";
          String nuevosValores = "nombreAlumno = '" + nuevoNombre +
                  "' AND apellidosAlumno = '" + nuevosApellidos + "'";
          String condicion = "matricula = " + matricula;
@@ -67,7 +67,7 @@ public class DAOAlumno extends DAOBase{
      public static int Borrar(String matricula){
          
          String unaMatricula = matricula;
-         String nombreTabla = "Alumnos";
+         String nombreTabla = "alumnos";
          String condicion = "matricula = " + matricula;
          
          int estado = EjecutarEliminacion(nombreTabla, condicion);
@@ -102,4 +102,22 @@ public class DAOAlumno extends DAOBase{
         }
         return lista;
     }
+    
+    public static int GuardarRelacion(String claveGrupo, String matricula){
+        
+         String nombreTabla = "inscripciongrupo (claveGrupo, matricula)";
+        
+         String valores = "'" + claveGrupo + "' , '" + matricula + "'";
+                  
+         int estado = EjecutarGuardado(nombreTabla, valores);
+         
+         if(FueExitoso(estado)){
+             System.out.println("Alumno: " + matricula + " inscrito al grupo" + claveGrupo);
+             return EXITO;
+         }else{
+             System.err.println("Error al registrar alumno con matricula " + matricula);
+             return ERROR;
+         }
+     }
+    
 }

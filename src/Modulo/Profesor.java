@@ -13,7 +13,7 @@ public class Profesor {
     private String apellidos; 
     private String clave;
 
-    public Profesor(String nombre, String apellidos, String clave) {
+    public Profesor(String clave, String nombre, String apellidos) {
         this.nombre = nombre;
         this.apellidos = apellidos;
         this.clave = clave;
@@ -47,5 +47,10 @@ public class Profesor {
 
     public String GetClave() {
         return clave;
+    }
+    
+    @Override
+    public String toString() {
+        return nombre + " " + apellidos;
     }
 }

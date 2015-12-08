@@ -174,7 +174,7 @@ public class VistaAdministradorProfesor extends javax.swing.JFrame {
     }//GEN-LAST:event_btnListarActionPerformed
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
-        VistaRegistrarAlumno ventanaRegistrar = new VistaRegistrarAlumno();
+        VistaRegistrarProfesor ventanaRegistrar = new VistaRegistrarProfesor();
         ventanaRegistrar.setVisible(true);
     }//GEN-LAST:event_btnRegistrarActionPerformed
 

@@ -1,8 +1,8 @@
 package Controlador;
 
-import Modulo.Asignatura;
+import ManejoDatos.DAOGrupoEscolar;
 import Modulo.GrupoEscolar;
-import Modulo.Profesor;
+import java.util.ArrayList;
 
 /**
  *
@@ -15,21 +15,51 @@ import Modulo.Profesor;
 public class AdministradorDeGrupo {
     
     
-    public static void Registrar(GrupoEscolar unGrupo){
+    public static String Registrar(GrupoEscolar unGrupo){
+                
+        if(FueExitoso(DAOGrupoEscolar.Guardar(unGrupo))){
+            return "Grupo guardado!";
+        }else{
+            return "Error al registrar grupo D:";
+        }
     }
     
-    public static void Eliminar(String clave){
+    public static String Eliminar(String clave){
+        
+        if(FueExitoso(DAOGrupoEscolar.Borrar(clave))){
+            return "Grupo Eliminado!";
+        }else{
+            return "Error al eliminar";
+        }
+        
     }
     
-    public static void ModificarProfesor(String clave, Profesor unProfesor){
+    public static String Modificar(GrupoEscolar unGrupo){
+        
+        if(FueExitoso(DAOGrupoEscolar.Actualizar(unGrupo))){
+            return "Alumno modificado!";
+        }else{
+            return "Error al modificar grupo.";
+        }
+        
     }
     
-    public static void ModificarAsignatura(String clave, Asignatura unaAsignatura){
-    }
+       
+    public static ArrayList<GrupoEscolar> ObtenerLista(){
+        
+        ArrayList<GrupoEscolar> lista = DAOGrupoEscolar.GenerarLista();
+        return lista;
+   }
     
-    public static void ModificarHorario(String clave, String unHorario){
-    }
     
-    public static void ModificarAula(String clave, String aula){
+    
+    private static final int EXITO = 0;
+    
+    private static boolean FueExitoso(int estado){
+        if(estado == EXITO){
+            return true;
+        }else{
+            return false;
+        }
     }
 }

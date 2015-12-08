@@ -2,7 +2,6 @@ package Controlador;
 
 import ManejoDatos.DAOAsignatura;
 import Modulo.Asignatura;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 
@@ -19,7 +18,7 @@ public class AdministradorDeAsignatura {
    
    public static String Registrar(Asignatura unaAsignatura){
         
-        if(DAOAsignatura.Guardar(unaAsignatura) == 0){
+        if(FueExitoso( DAOAsignatura.Guardar(unaAsignatura))){
             return "Asignatura guardado!";
         }else{
             return "Error al registrar asignatura.";
@@ -29,7 +28,7 @@ public class AdministradorDeAsignatura {
     
     public static String Modificar(Asignatura unaAsignatura){
         
-        if(DAOAsignatura.Actualizar(unaAsignatura) == 0){
+        if(FueExitoso( DAOAsignatura.Actualizar(unaAsignatura))){
             return "Asignatura modificado!";
         }else{
             return "Error al modificar asignatura.";
@@ -37,9 +36,9 @@ public class AdministradorDeAsignatura {
         
     }
 
-    public static String Eliminar(String clave){
+    public static String Eliminar(String claveAsignatura){
      
-        if(DAOAsignatura.Borrar(clave) == 0){
+        if(FueExitoso( DAOAsignatura.Borrar(claveAsignatura))){
             return "Asignatura eliminado!";
         }else{
             return "Error al eliminar asignatura.";
@@ -48,9 +47,17 @@ public class AdministradorDeAsignatura {
     
     public static ArrayList<Asignatura> ObtenerLista() {
         
-      
         ArrayList<Asignatura> lista = DAOAsignatura.GenerarLista();
-        
-    return lista;
+        return lista;
    }
+    
+    private static final int EXITO = 0;
+    
+    private static boolean FueExitoso(int estado){
+        if(estado == EXITO){
+            return true;
+        }else{
+            return false;
+        }
+    }
 }

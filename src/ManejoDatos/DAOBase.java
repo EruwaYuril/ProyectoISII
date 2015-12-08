@@ -14,7 +14,13 @@ import java.sql.Statement;
  */
 public abstract class DAOBase {
     
+    static Connection miConexion;
+    
+    static final int EXITO = 0;
+    static final int ERROR = -1;
+    
     static int EjecutarGuardado(String nombreTabla, String valores){
+        
         try{
             Statement consulta = miConexion.createStatement();
             
@@ -75,11 +81,5 @@ public abstract class DAOBase {
             return false;
         }
     }
-    
-       
-    static Connection miConexion;
-    
-    static final int EXITO = 0;
-    static final int ERROR = -1;
     
 }

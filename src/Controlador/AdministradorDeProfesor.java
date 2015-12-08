@@ -18,7 +18,7 @@ public class AdministradorDeProfesor {
 
    public static String Registrar(Profesor unProfesor){
         
-        if(DAOProfesor.Guardar(unProfesor) == 0){
+        if(FueExitoso( DAOProfesor.Guardar(unProfesor))){
             return "Profesor guardado!";
         }else{
             return "Error al registrar profesor.";
@@ -28,7 +28,7 @@ public class AdministradorDeProfesor {
     
     public static String Modificar(Profesor unProfesor){
         
-        if(DAOProfesor.Actualizar(unProfesor) == 0){
+        if(FueExitoso( DAOProfesor.Actualizar(unProfesor))){
             return "Profesor modificado!";
         }else{
             return "Error al modificar profesor.";
@@ -36,9 +36,9 @@ public class AdministradorDeProfesor {
         
     }
 
-    public static String Eliminar(String clave){
+    public static String Eliminar(String claveProfesor){
      
-        if(DAOProfesor.Borrar(clave) == 0){
+        if(FueExitoso( DAOProfesor.Borrar(claveProfesor))){
             return "Profesor eliminado!";
         }else{
             return "Error al eliminar profesor.";
@@ -51,4 +51,14 @@ public class AdministradorDeProfesor {
         
     return lista;
    }
+    
+    private static final int EXITO = 0;
+    
+    private static boolean FueExitoso(int estado){
+        if(estado == EXITO){
+            return true;
+        }else{
+            return false;
+        }
+    }
 }

@@ -1,6 +1,7 @@
 package Controlador;
 
 import ManejoDatos.DAOAlumno;
+import ManejoDatos.DAOGrupoEscolar;
 import Modulo.Alumno;
 import java.util.ArrayList;
 
@@ -53,6 +54,13 @@ public class AdministradorDeAlumno {
         return lista;
         
     }
+    
+    public static void InscribirAlumno(String clave, String matricula){
+        DAOAlumno.GuardarRelacion(clave, matricula);
+        
+    }
+    
+    
     
     private static final int EXITO = 0;
     

@@ -13,16 +13,17 @@ public class Alumno {
     private String apellidos; 
     private String matricula;
 
-    public Alumno(String nombre, String apellidos,String matricula) {
+    public Alumno(String matricula, String nombre, String apellidos) {
+        this.matricula = matricula;
         this.nombre = nombre;
         this.apellidos = apellidos;
-        this.matricula = matricula;
     }
 
     public Alumno() {
+        this.matricula = "";
         this.nombre = "";
         this.apellidos = "";
-        this.matricula = "";
+        
     }
 
     public void SetNombre(String nombre) {

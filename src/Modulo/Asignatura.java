@@ -12,9 +12,9 @@ public class Asignatura {
     private String nombre;
     private String clave;
 
-    public Asignatura(String nombre, String clave) {
-        this.nombre = nombre;
+    public Asignatura(String clave, String nombre) {
         this.clave = clave;
+        this.nombre = nombre;   
     }
     
     public Asignatura(){
@@ -35,5 +35,10 @@ public class Asignatura {
 
     public String GetClave() {
         return clave;
-    }    
+    } 
+    
+    @Override
+    public String toString() {
+        return nombre;
+    }
 }

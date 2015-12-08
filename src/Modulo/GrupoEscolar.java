@@ -15,12 +15,16 @@ public class GrupoEscolar {
     private String horario;
     private String aula;
 
-    public GrupoEscolar(Profesor unProfesor, Asignatura unaAsignatura, String clave, String horario, String aula) {
+    public GrupoEscolar(String clave, Asignatura unaAsignatura,Profesor unProfesor, String aula, String horario) {
         this.unProfesor = unProfesor;
         this.unaAsignatura = unaAsignatura;
         this.clave = clave;
         this.horario = horario;
         this.aula = aula;
+    }
+    
+    public GrupoEscolar(){
+        
     }
 
     public void SetUnProfesor(Profesor unProfesor) {
@@ -32,7 +36,7 @@ public class GrupoEscolar {
     }
 
     public void SetClaveGrupo(String claveGrupo) {
-        this.clave = clave;
+        this.clave = claveGrupo;
     }
 
     public void SetHorario(String horario) {
@@ -62,4 +66,11 @@ public class GrupoEscolar {
     public String GetAula() {
         return aula;
     }   
+
+    @Override
+    public String toString() {
+        return "GrupoEscolar{" + "unProfesor=" + unProfesor + ", unaAsignatura=" + unaAsignatura + ", clave=" + clave + '}';
+    }
+    
+    
 }
