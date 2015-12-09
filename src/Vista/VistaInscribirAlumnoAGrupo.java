@@ -131,7 +131,9 @@ public class VistaInscribirAlumnoAGrupo extends javax.swing.JFrame {
         
         if(comboAsignatura.getSelectedItem() != null){
             GrupoEscolar grupoEscolar = ((GrupoEscolar)comboAsignatura.getSelectedItem());
-            AdministradorDeAlumno.InscribirAlumno(grupoEscolar.GetClave(), etiquetaMatricula.getText());
+            String msjResultado = AdministradorDeAlumno.InscribirAGrupo(grupoEscolar.GetClave(), etiquetaMatricula.getText());
+            JOptionPane.showMessageDialog(null, msjResultado, "Resultado",
+                        JOptionPane.INFORMATION_MESSAGE);
             if(JOptionPane.showConfirmDialog(null, "Desea inscribir otra?",
                     "Inscribir", JOptionPane.YES_NO_OPTION) == JOptionPane.NO_OPTION){
                 this.dispose();

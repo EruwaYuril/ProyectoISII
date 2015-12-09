@@ -2,7 +2,7 @@ package Controlador;
 
 import ManejoDatos.DAOGrupoEscolar;
 import ManejoDatos.ValidadorDeEstado;
-import Modulo.GrupoAlumno;
+import Modulo.InscripcionAGrupo;
 import Modulo.GrupoEscolar;
 import java.util.ArrayList;
 
@@ -52,9 +52,9 @@ public class AdministradorDeGrupo {
         return lista;
    }
     
-    public static ArrayList<GrupoAlumno> ObtenerListaDeGrupo(String claveGrupo){
+    public static ArrayList<InscripcionAGrupo> ObtenerListaDeGrupo(String claveGrupo){
         
-        ArrayList<GrupoAlumno> lista = DAOGrupoEscolar.GenerarListaAlumnos(claveGrupo);
+        ArrayList<InscripcionAGrupo> lista = DAOGrupoEscolar.GenerarListaAlumnos(claveGrupo);
         return lista;
    }
  

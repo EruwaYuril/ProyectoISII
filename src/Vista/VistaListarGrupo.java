@@ -8,7 +8,7 @@ package Vista;
 
 import Controlador.AdministradorDeGrupo;
 import ManejoDatos.ValidadorDeEstado;
-import Modulo.GrupoAlumno;
+import Modulo.InscripcionAGrupo;
 import java.util.ArrayList;
 import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
@@ -187,7 +187,7 @@ public class VistaListarGrupo extends javax.swing.JFrame {
     private void actualizarTabla(){
         
         
-        ArrayList<GrupoAlumno> lista;
+        ArrayList<InscripcionAGrupo> lista;
         lista = AdministradorDeGrupo.ObtenerListaDeGrupo(claveGrupo);
         
         Vector <String> titulo = new Vector<String>();
@@ -200,10 +200,10 @@ public class VistaListarGrupo extends javax.swing.JFrame {
         
         for(int i=0; i<lista.size(); i++){
             Vector<Object> row= new Vector<Object>();
-            row.add(((GrupoAlumno)lista.get(i)).getUnGrupo().GetClave());
+            row.add(((InscripcionAGrupo)lista.get(i)).getUnGrupo().GetClave());
            // row.add(((GrupoAlumno)lista.get(i)).getUnAlumno().GetMatricula());            
-            row.add(((GrupoAlumno)lista.get(i)).getUnAlumno().GetNombre());
-            row.add(((GrupoAlumno)lista.get(i)).getUnAlumno().GetApellidos());
+            row.add(((InscripcionAGrupo)lista.get(i)).getUnAlumno().GetNombre());
+            row.add(((InscripcionAGrupo)lista.get(i)).getUnAlumno().GetApellidos());
             
             
             data.add(row);

@@ -56,8 +56,13 @@ public class AdministradorDeAlumno {
         
     }
     
-    public static void InscribirAlumno(String clave, String matricula){
-        DAOAlumno.GuardarRelacion(clave, matricula);
+    public static String InscribirAGrupo(String clave, String matricula){
+        if(ValidadorDeEstado.Exito( DAOAlumno.GuardarRelacion(clave, matricula) ) ){
+            return "Alumno inscrito!";
+        }else{
+            return "Error al inscribir alumno.";
+        }
+        
         
     }
     

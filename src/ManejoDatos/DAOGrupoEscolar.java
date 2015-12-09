@@ -7,7 +7,7 @@ package ManejoDatos;
 
 import Modulo.Alumno;
 import Modulo.Asignatura;
-import Modulo.GrupoAlumno;
+import Modulo.InscripcionAGrupo;
 import Modulo.GrupoEscolar;
 import Modulo.Profesor;
 import java.sql.ResultSet;
@@ -126,9 +126,9 @@ public class DAOGrupoEscolar extends DAOBase{
         return lista;
    }
     
-    public static ArrayList<GrupoAlumno> GenerarListaAlumnos(String claveGrupo){
+    public static ArrayList<InscripcionAGrupo> GenerarListaAlumnos(String claveGrupo){
               
-        ArrayList<GrupoAlumno> lista = new ArrayList<>();
+        ArrayList<InscripcionAGrupo> lista = new ArrayList<>();
         System.out.println(claveGrupo);
         try{
             
@@ -156,7 +156,7 @@ public class DAOGrupoEscolar extends DAOBase{
                         resultado.getString("nombreAlumno"), 
                         resultado.getString("apellidosAlumno"));
                 
-                lista.add(new GrupoAlumno(unGrupo, unAlumno));
+                lista.add(new InscripcionAGrupo(unGrupo, unAlumno));
             }
         }catch(SQLException ex){
             System.err.println("Error al generar lista. " + ex.getMessage());

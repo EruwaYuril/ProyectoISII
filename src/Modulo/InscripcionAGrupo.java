@@ -10,25 +10,19 @@ package Modulo;
  *
  * @author Aaron
  * 
- * Clase objeto que describe los atributos de los alumnos.
+ * Clase objeto que describe la inscripción de un alumno
+ * a un grupo.
  * 
  */
-public class GrupoAlumno {
-    
-    //HolaCristian
-    
-    private GrupoEscolar unGrupo; 
-    private Alumno unAlumno; 
-    
+public class InscripcionAGrupo {   
 
-    public GrupoAlumno(GrupoEscolar unGrupo, Alumno unAlumno) {
+    public InscripcionAGrupo(GrupoEscolar unGrupo, Alumno unAlumno) {
         this.unGrupo = unGrupo;
         this.unAlumno = unAlumno;
     }
 
-    public GrupoAlumno() {
-        this.unGrupo = null;
-        this.unAlumno = null;
+    public InscripcionAGrupo() {
+       
     }
 
     public GrupoEscolar getUnGrupo() {
@@ -38,19 +32,17 @@ public class GrupoAlumno {
     public void setUnGrupo(GrupoEscolar unGrupo) {
         this.unGrupo = unGrupo;
     }
-
+    
     public Alumno getUnAlumno() {
         return unAlumno;
     }
-
+    
     public void setUnAlumno(Alumno unAlumno) {
         this.unAlumno = unAlumno;
     }
     
-    
-    
-    
-
+    private GrupoEscolar unGrupo;
+    private Alumno unAlumno;
     
 }
 
