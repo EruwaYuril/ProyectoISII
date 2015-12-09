@@ -61,9 +61,16 @@ public class AdministradorDeAlumno {
             return "Alumno inscrito!";
         }else{
             return "Error al inscribir alumno.";
-        }
+        }   
+    }
+    
+    public static String BajaAlumno(String clave, String matricula){
         
-        
+        if(ValidadorDeEstado.Exito( DAOAlumno.BorrarRelacion(clave, matricula) ) ){
+            return "Alumno dado de baja exitosamente!";
+        }else{
+            return "Error al dar de baja al alumno.";
+        }           
     }
     
 }

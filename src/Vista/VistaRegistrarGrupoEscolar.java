@@ -10,6 +10,7 @@ import Controlador.AdministradorDeAsignatura;
 import Controlador.AdministradorDeGrupo;
 import Controlador.AdministradorDeProfesor;
 import ManejoDatos.ValidadorDeEstado;
+import ManejoDatos.ValidadorDeFormato;
 import ManejoDatos.ValidadorDeLongitudTexto;
 import Modulo.Asignatura;
 import Modulo.GrupoEscolar;
@@ -48,12 +49,13 @@ public class VistaRegistrarGrupoEscolar extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         txtAulaGrupo = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        txtHorarioGrupo = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         comboAsignaturas = new javax.swing.JComboBox();
         comboProfesores = new javax.swing.JComboBox();
         btnGuardar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
+        txtHorarioGrupo = new javax.swing.JFormattedTextField(
+            ValidadorDeFormato.crearFormato("##:##-##:##"));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -134,9 +136,9 @@ public class VistaRegistrarGrupoEscolar extends javax.swing.JFrame {
                             .addComponent(jLabel6)
                             .addComponent(txtClaveGrupo)
                             .addComponent(txtAulaGrupo)
-                            .addComponent(txtHorarioGrupo, javax.swing.GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE)
-                            .addComponent(comboAsignaturas, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(comboProfesores, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(comboAsignaturas, 0, 166, Short.MAX_VALUE)
+                            .addComponent(comboProfesores, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtHorarioGrupo))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnGuardar)
@@ -195,13 +197,15 @@ public class VistaRegistrarGrupoEscolar extends javax.swing.JFrame {
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         // TODO add your handling code here:
         
-        if(txtAulaGrupo.getText().equals("") || txtHorarioGrupo.getText().equals("") ||
+        if(txtAulaGrupo.getText().equals("") || txtHorarioGrupo.getText().replaceAll("\\s","").equals(":-:") ||
                 comboAsignaturas.getSelectedIndex() == ValidadorDeEstado.NO_SELECCION ||
                 comboProfesores.getSelectedIndex() == ValidadorDeEstado.NO_SELECCION){
-            JOptionPane.showMessageDialog(null, "ERROR: Llenar todos los campos", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "ERROR: Llenar todos los campos", 
+                    "Error", JOptionPane.ERROR_MESSAGE);
         }else{
             if(txtClaveGrupo.getText().length() < ValidadorDeLongitudTexto.LONGITUD_CLAVE){
-                JOptionPane.showMessageDialog(null, "ERROR: Clave debe ser de 8 numeros. Ej: 12345678", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "ERROR: Clave debe ser de 8 numeros. Ej: 12345678", 
+                        "Error", JOptionPane.ERROR_MESSAGE);
             } else {
                 String claveGrupo = txtClaveGrupo.getText();
                 Asignatura unaAsignatura = ((Asignatura)comboAsignaturas.getSelectedItem());
@@ -215,15 +219,15 @@ public class VistaRegistrarGrupoEscolar extends javax.swing.JFrame {
                 if(JOptionPane.showConfirmDialog(null, "Desea registrar otro?",
                         "Registrar", JOptionPane.YES_NO_OPTION) == JOptionPane.NO_OPTION){
                     this.dispose();
+                }else{
+                    txtClaveGrupo.setText("");
+                    comboAsignaturas.setSelectedIndex(ValidadorDeEstado.NO_SELECCION);
+                    comboProfesores.setSelectedIndex(ValidadorDeEstado.NO_SELECCION);
+                    txtAulaGrupo.setText("");
+                    txtHorarioGrupo.setText("");
                 }
             }
         }
-
-        txtClaveGrupo.setText("");
-        comboAsignaturas.setSelectedIndex(ValidadorDeEstado.NO_SELECCION);
-        comboProfesores.setSelectedIndex(ValidadorDeEstado.NO_SELECCION);
-        txtAulaGrupo.setText("");
-        txtHorarioGrupo.setText("");
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
@@ -281,29 +285,25 @@ public class VistaRegistrarGrupoEscolar extends javax.swing.JFrame {
     }
 
     
-     private void cargarCombosBox(){
+    private void cargarCombosBox(){
         ArrayList<Asignatura> listaAsignaturas;
         ArrayList<Profesor> listaProfesores;
-        
-        
         
         listaAsignaturas = AdministradorDeAsignatura.ObtenerLista();
         listaProfesores = AdministradorDeProfesor.ObtenerLista();
         for(int i=0; i<listaAsignaturas.size(); i++){
             
             comboAsignaturas.addItem(((Asignatura)listaAsignaturas.get(i)));
-           
+            
         }
         for(int i=0; i<listaProfesores.size(); i++){
             
-           
             comboProfesores.addItem(((Profesor)listaProfesores.get(i)));
-
         }
         
-        
-        
     }
+ 
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnGuardar;
@@ -317,6 +317,6 @@ public class VistaRegistrarGrupoEscolar extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JTextField txtAulaGrupo;
     private javax.swing.JTextField txtClaveGrupo;
-    private javax.swing.JTextField txtHorarioGrupo;
+    private javax.swing.JFormattedTextField txtHorarioGrupo;
     // End of variables declaration//GEN-END:variables
 }

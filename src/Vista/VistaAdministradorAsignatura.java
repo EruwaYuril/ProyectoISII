@@ -61,6 +61,7 @@ public class VistaAdministradorAsignatura extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setResizable(false);
 
+        tablaAsignatura.setAutoCreateRowSorter(true);
         tablaAsignatura.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null},

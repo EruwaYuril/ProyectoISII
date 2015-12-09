@@ -106,11 +106,12 @@ public class DAOGrupoEscolar extends DAOBase{
                             + "ON gpo.claveProfesor = prof.claveProfesor");
            
             while(resultado.next()){
-                Profesor unProfesor= new Profesor(resultado.getString("nombreProfesor"), 
-                        resultado.getString("apellidosProfesor"), 
-                        resultado.getString("claveProfesor"));
-                Asignatura unaAsignatura = new Asignatura(resultado.getString("nombreAsignatura"), 
-                        resultado.getString("claveAsignatura"));
+                Profesor unProfesor= new Profesor(resultado.getString("claveProfesor"),
+                        resultado.getString("nombreProfesor"), 
+                        resultado.getString("apellidosProfesor") 
+                        );
+                Asignatura unaAsignatura = new Asignatura(resultado.getString("claveAsignatura"), 
+                        resultado.getString("nombreAsignatura"));
                 
                 lista.add(new GrupoEscolar(
                         resultado.getString("claveGrupo"), 
@@ -129,7 +130,6 @@ public class DAOGrupoEscolar extends DAOBase{
     public static ArrayList<InscripcionAGrupo> GenerarListaAlumnos(String claveGrupo){
               
         ArrayList<InscripcionAGrupo> lista = new ArrayList<>();
-        System.out.println(claveGrupo);
         try{
             
             Statement consulta = conexion.createStatement();

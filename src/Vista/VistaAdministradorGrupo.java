@@ -104,6 +104,7 @@ public class VistaAdministradorGrupo extends javax.swing.JFrame {
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("ADMINISTRADOR GRUPOS");
 
+        tablaGrupo.setAutoCreateRowSorter(true);
         tablaGrupo.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
@@ -225,7 +226,7 @@ public class VistaAdministradorGrupo extends javax.swing.JFrame {
                     "Error", JOptionPane.ERROR_MESSAGE);
         }else{
             String claveGrupo = (String) tablaGrupo.getValueAt(registroSeleccionado, 0);
-            VistaListarGrupo ventanaListar = new VistaListarGrupo(claveGrupo);
+            VistaListarAlumnosGrupo ventanaListar = new VistaListarAlumnosGrupo(claveGrupo);
             ventanaListar.setVisible(true);
         }
         

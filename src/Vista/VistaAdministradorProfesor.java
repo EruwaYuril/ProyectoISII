@@ -81,6 +81,7 @@ public class VistaAdministradorProfesor extends javax.swing.JFrame {
         etiquetaTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         etiquetaTitulo.setText("ADMINISTRADOR PROFESOR");
 
+        tablaProfesor.setAutoCreateRowSorter(true);
         tablaProfesor.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},

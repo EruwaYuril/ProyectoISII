@@ -83,6 +83,7 @@ public class VistaAdministradorAlumno extends javax.swing.JFrame {
         etiquetaTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         etiquetaTitulo.setText("ADMINISTRADOR ALUMNO");
 
+        tablaAlumno.setAutoCreateRowSorter(true);
         tablaAlumno.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
@@ -91,9 +92,17 @@ public class VistaAdministradorAlumno extends javax.swing.JFrame {
                 {null, null, null}
             },
             new String [] {
-                "Contraseña", "Nombre(s)", "Apellidos"
+                "Matricula", "Nombre(s)", "Apellidos"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(tablaAlumno);
 
         btnRegistrar.setText("Registrar");

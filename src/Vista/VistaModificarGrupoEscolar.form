@@ -39,9 +39,9 @@
                           <Component id="jLabel6" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="txtClaveGrupo" alignment="0" max="32767" attributes="0"/>
                           <Component id="txtAulaGrupo" alignment="0" max="32767" attributes="0"/>
-                          <Component id="txtHorarioGrupo" alignment="0" pref="166" max="32767" attributes="0"/>
-                          <Component id="comboAsignaturas" alignment="0" max="32767" attributes="0"/>
+                          <Component id="comboAsignaturas" alignment="0" pref="166" max="32767" attributes="0"/>
                           <Component id="comboProfesores" alignment="0" max="32767" attributes="0"/>
+                          <Component id="txtHorarioGrupo" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
@@ -166,12 +166,15 @@
         <Property name="text" type="java.lang.String" value="Horario"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="txtHorarioGrupo">
-    </Component>
     <Component class="javax.swing.JLabel" name="jLabel6">
       <Properties>
         <Property name="text" type="java.lang.String" value="Modificar Grupo"/>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JFormattedTextField" name="txtHorarioGrupo">
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JFormattedTextField(&#xa;    ValidadorDeFormato.crearFormato(&quot;##:##-##:##&quot;))"/>
+      </AuxValues>
     </Component>
   </SubComponents>
 </Form>

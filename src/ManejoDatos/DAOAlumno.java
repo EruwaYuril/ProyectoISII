@@ -121,4 +121,21 @@ public class DAOAlumno extends DAOBase{
          }
      }
     
+    public static int BorrarRelacion(String claveGrupo, String matricula){
+        
+         String unaMatricula = matricula;
+         String nombreTabla = "inscripciongrupo";
+         String condicion = "claveGrupo = '" + claveGrupo + "' AND matricula = " + matricula;
+         
+         int estado = EjecutarEliminacion(nombreTabla, condicion);
+         
+         if(ValidadorDeEstado.Exito(estado)){
+             System.out.println("Alumno con matricula [" + unaMatricula + "] eliminado del grupo.");
+             return EXITO;
+         }else{
+             System.err.println("Error al dar de baja al alumno con matricula " + matricula);
+             return ERROR;
+         }
+     }
+    
 }

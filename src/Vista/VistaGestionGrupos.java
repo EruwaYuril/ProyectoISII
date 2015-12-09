@@ -41,7 +41,7 @@ public class VistaGestionGrupos extends javax.swing.JFrame {
         setResizable(false);
 
         etiquetaTitulo.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        etiquetaTitulo.setText("Sistema de Gestion de Grupos Escolares");
+        etiquetaTitulo.setText("Sistema Administrador de Grupos Escolares");
 
         btnAdminAlumno.setText("Administrar Alumno");
         btnAdminAlumno.addActionListener(new java.awt.event.ActionListener() {
@@ -89,25 +89,24 @@ public class VistaGestionGrupos extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(54, 54, 54)
+                        .addGap(37, 37, 37)
                         .addComponent(etiquetaTitulo))
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
+                        .addGap(23, 23, 23)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnAdminAsignatura)
-                            .addComponent(btnAdminProfesor)
-                            .addComponent(btnAdminAlumno)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(btnAdminGrupos, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(44, Short.MAX_VALUE))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(btnAdminAsignatura, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnAdminAlumno, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnAdminProfesor, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(btnAdminGrupos, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(36, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(etiquetaTitulo)
-                .addGap(31, 31, 31)
+                .addGap(30, 30, 30)
                 .addComponent(btnAdminAlumno)
                 .addGap(18, 18, 18)
                 .addComponent(btnAdminProfesor)
@@ -115,7 +114,7 @@ public class VistaGestionGrupos extends javax.swing.JFrame {
                 .addComponent(btnAdminAsignatura)
                 .addGap(18, 18, 18)
                 .addComponent(btnAdminGrupos)
-                .addGap(47, 47, 47)
+                .addGap(48, 48, 48)
                 .addComponent(btnSalir)
                 .addContainerGap(29, Short.MAX_VALUE))
         );

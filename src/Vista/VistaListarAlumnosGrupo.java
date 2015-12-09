@@ -17,12 +17,12 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Aaron
  */
-public class VistaListarGrupo extends javax.swing.JFrame {
+public class VistaListarAlumnosGrupo extends javax.swing.JFrame {
 
     /**
      * Creates new form VistaListarGrupo
      */
-    public VistaListarGrupo(String claveGrupo) {
+    public VistaListarAlumnosGrupo(String claveGrupo) {
         initComponents();
                
         this.claveGrupo = claveGrupo;
@@ -65,17 +65,26 @@ public class VistaListarGrupo extends javax.swing.JFrame {
         etiquetaGrupo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         etiquetaGrupo.setText("GRUPO");
 
+        tablaGrupo.setAutoCreateRowSorter(true);
         tablaGrupo.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "Contraseña", "Nombre(s)", "Apellidos"
+                "Clave", "Matricula", "Nombre(s)", "Apellidos"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(tablaGrupo);
 
         btnEliminar.setText("Eliminar");
@@ -139,12 +148,12 @@ public class VistaListarGrupo extends javax.swing.JFrame {
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         int registroSeleccionado = tablaGrupo.getSelectedRow();
-        VistaEliminarAlumno ventanaEliminar;
+        VistaEliminarAlumnoGrupo ventanaEliminar;
         if(registroSeleccionado == ValidadorDeEstado.NO_SELECCION){
-            ventanaEliminar = new VistaEliminarAlumno();
+            ventanaEliminar = new VistaEliminarAlumnoGrupo();
         }else{
-            String matriculaAEliminar = (String) tablaGrupo.getValueAt(registroSeleccionado, 0);
-            ventanaEliminar = new VistaEliminarAlumno(matriculaAEliminar);
+            String matricula = (String) tablaGrupo.getValueAt(registroSeleccionado, 1);
+            ventanaEliminar = new VistaEliminarAlumnoGrupo(claveGrupo, matricula);
         }
         ventanaEliminar.setVisible(true);
     }//GEN-LAST:event_btnEliminarActionPerformed
@@ -166,13 +175,13 @@ public class VistaListarGrupo extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(VistaListarGrupo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VistaListarAlumnosGrupo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(VistaListarGrupo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VistaListarAlumnosGrupo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(VistaListarGrupo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VistaListarAlumnosGrupo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(VistaListarGrupo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VistaListarAlumnosGrupo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
@@ -193,7 +202,8 @@ public class VistaListarGrupo extends javax.swing.JFrame {
         Vector <String> titulo = new Vector<String>();
         Vector<Vector<Object>> data= new Vector<Vector<Object>>();
         
-        titulo.add("Grupo");
+        titulo.add("ClaveGrupo");
+        titulo.add("Matricula");
         titulo.add("Nombre");
         titulo.add("Apellidos");
         
@@ -201,11 +211,10 @@ public class VistaListarGrupo extends javax.swing.JFrame {
         for(int i=0; i<lista.size(); i++){
             Vector<Object> row= new Vector<Object>();
             row.add(((InscripcionAGrupo)lista.get(i)).getUnGrupo().GetClave());
-           // row.add(((GrupoAlumno)lista.get(i)).getUnAlumno().GetMatricula());            
+            row.add(((InscripcionAGrupo)lista.get(i)).getUnAlumno().GetMatricula());            
             row.add(((InscripcionAGrupo)lista.get(i)).getUnAlumno().GetNombre());
             row.add(((InscripcionAGrupo)lista.get(i)).getUnAlumno().GetApellidos());
-            
-            
+
             data.add(row);
         }
         
@@ -221,6 +230,5 @@ public class VistaListarGrupo extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tablaGrupo;
     // End of variables declaration//GEN-END:variables
-    private VistaAdministradorGrupo menuPrincipal;
     private String claveGrupo;
 }

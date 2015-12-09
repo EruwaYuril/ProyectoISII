@@ -8,12 +8,6 @@ package Modulo;
  * 
  */
 public class GrupoEscolar {
-    
-    private Profesor unProfesor;
-    private Asignatura unaAsignatura;
-    private String clave;
-    private String horario;
-    private String aula;
 
     public GrupoEscolar(String clave, Asignatura unaAsignatura,Profesor unProfesor, String aula, String horario) {
         this.unProfesor = unProfesor;
@@ -71,6 +65,13 @@ public class GrupoEscolar {
     public String toString() {
         return "[" + clave + "] " + unProfesor + " - " + unaAsignatura;
     }
+    
+    
+    private String clave;
+    private Asignatura unaAsignatura;
+    private Profesor unProfesor;
+    private String aula;
+    private String horario;
     
     
 }
