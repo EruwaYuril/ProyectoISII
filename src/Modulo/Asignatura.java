@@ -8,9 +8,6 @@ package Modulo;
  * 
  */
 public class Asignatura {
-    
-    private String nombre;
-    private String clave;
 
     public Asignatura(String clave, String nombre) {
         this.clave = clave;
@@ -18,8 +15,7 @@ public class Asignatura {
     }
     
     public Asignatura(){
-        this.nombre = "";
-        this.clave = "";
+        
     }
     public void SetNombre(String nombre) {
         this.nombre = nombre;
@@ -41,4 +37,8 @@ public class Asignatura {
     public String toString() {
         return nombre;
     }
+    
+    private String clave;
+    private String nombre;
+
 }

@@ -6,11 +6,9 @@ package Vista;
 
 import Controlador.AdministradorDeAlumno;
 import ManejoDatos.ConexionBD;
-import Controlador.ValidarLongitudTexto;
+import ManejoDatos.ValidadorDeLongitudTexto;
 import Modulo.Alumno;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.text.MaskFormatter;
 
 
 /**
@@ -35,27 +33,27 @@ public class VistaRegistrarAlumno extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        etiquetaNombre = new javax.swing.JLabel();
+        etiquetaApellidos = new javax.swing.JLabel();
+        etiquetaMatricula = new javax.swing.JLabel();
         btnGuardar = new javax.swing.JButton();
-        jLabel4 = new javax.swing.JLabel();
+        etiquetaTitulo = new javax.swing.JLabel();
         btnCancelar = new javax.swing.JButton();
-        txtMatricula = new javax.swing.JFormattedTextField(crearFormato("########"));
+        txtMatricula = new javax.swing.JFormattedTextField();
         txtNombreAlumno = new javax.swing.JFormattedTextField();
         txtApellidosAlumno = new javax.swing.JFormattedTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
 
-        jLabel1.setLabelFor(txtNombreAlumno);
-        jLabel1.setText("Nombre:");
+        etiquetaNombre.setLabelFor(txtNombreAlumno);
+        etiquetaNombre.setText("Nombre:");
 
-        jLabel2.setLabelFor(txtApellidosAlumno);
-        jLabel2.setText("Apellidos:");
+        etiquetaApellidos.setLabelFor(txtApellidosAlumno);
+        etiquetaApellidos.setText("Apellidos:");
 
-        jLabel3.setLabelFor(txtMatricula);
-        jLabel3.setText("Matricula:");
+        etiquetaMatricula.setLabelFor(txtMatricula);
+        etiquetaMatricula.setText("Matricula:");
 
         btnGuardar.setText("Guardar");
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
@@ -64,7 +62,7 @@ public class VistaRegistrarAlumno extends javax.swing.JFrame {
             }
         });
 
-        jLabel4.setText("Registrar Alumno");
+        etiquetaTitulo.setText("Registrar Alumno");
 
         btnCancelar.setText("Cancelar");
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
@@ -73,14 +71,21 @@ public class VistaRegistrarAlumno extends javax.swing.JFrame {
             }
         });
 
-        txtNombreAlumno.setDocument(new ValidarLongitudTexto(30));
+        txtMatricula.setDocument(new ManejoDatos.ValidadorDeLongitudTexto(8));
+        txtMatricula.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtMatriculaKeyTyped(evt);
+            }
+        });
+
+        txtNombreAlumno.setDocument(new ManejoDatos.ValidadorDeLongitudTexto(30));
         txtNombreAlumno.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtNombreAlumnoKeyTyped(evt);
             }
         });
 
-        txtApellidosAlumno.setDocument(new ValidarLongitudTexto(30));
+        txtApellidosAlumno.setDocument(new ManejoDatos.ValidadorDeLongitudTexto(30));
         txtApellidosAlumno.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtApellidosAlumnoKeyTyped(evt);
@@ -93,14 +98,14 @@ public class VistaRegistrarAlumno extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel4)
+                .addComponent(etiquetaTitulo)
                 .addGap(151, 151, 151))
             .addGroup(layout.createSequentialGroup()
                 .addGap(30, 30, 30)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel3))
+                    .addComponent(etiquetaNombre)
+                    .addComponent(etiquetaApellidos)
+                    .addComponent(etiquetaMatricula))
                 .addGap(35, 35, 35)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
@@ -116,18 +121,18 @@ public class VistaRegistrarAlumno extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(23, 23, 23)
-                .addComponent(jLabel4)
+                .addComponent(etiquetaTitulo)
                 .addGap(31, 31, 31)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
+                    .addComponent(etiquetaNombre)
                     .addComponent(txtNombreAlumno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(38, 38, 38)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
+                    .addComponent(etiquetaApellidos)
                     .addComponent(txtApellidosAlumno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(34, 34, 34)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
+                    .addComponent(etiquetaMatricula)
                     .addComponent(txtMatricula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(39, 39, 39)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -145,12 +150,12 @@ public class VistaRegistrarAlumno extends javax.swing.JFrame {
         String apellidos = txtApellidosAlumno.getText();
         String matricula = txtMatricula.getText().replaceAll("\\s","");
         
-        Alumno unAlumno = new Alumno(nombre, apellidos, matricula);
+        Alumno unAlumno = new Alumno(matricula, nombre, apellidos);
         
         if(txtNombreAlumno.getText().equals("") || txtApellidosAlumno.getText().equals("")){
             JOptionPane.showMessageDialog(null, "ERROR: Llenar todos los campos", "Error", JOptionPane.ERROR_MESSAGE);
         }else{
-            if(matricula.length()<8){
+            if(matricula.length() < ValidadorDeLongitudTexto.LONGITUD_MATRICULA){
                 JOptionPane.showMessageDialog(null, "ERROR: Matricula debe ser de 8 numeros. Ej: 12345678", "Error", JOptionPane.ERROR_MESSAGE);
             }
             else {
@@ -159,13 +164,13 @@ public class VistaRegistrarAlumno extends javax.swing.JFrame {
                 if(JOptionPane.showConfirmDialog(null, "Desea registrar otro?",
                         "Registrar", JOptionPane.YES_NO_OPTION) == JOptionPane.NO_OPTION){
                     this.dispose();
-                    //new VistaRegistrarAlumno().setVisible(true);
                 }
             }
         }
+        
+        txtMatricula.setText("");
         txtNombreAlumno.setText("");
         txtApellidosAlumno.setText("");
-        txtMatricula.setText("");
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
@@ -185,6 +190,13 @@ public class VistaRegistrarAlumno extends javax.swing.JFrame {
         
         if((validacion<'a' || validacion>'z')&&(validacion<'A' || validacion>'Z')&&(validacion<' ' || validacion>' '))evt.consume();
     }//GEN-LAST:event_txtApellidosAlumnoKeyTyped
+
+    private void txtMatriculaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMatriculaKeyTyped
+        // TODO add your handling code here:
+        char validacion = evt.getKeyChar();
+        
+        if(validacion < '0' || validacion > '9')evt.consume();
+    }//GEN-LAST:event_txtMatriculaKeyTyped
 
     /**
      * @param args the command line arguments
@@ -216,30 +228,18 @@ public class VistaRegistrarAlumno extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                if(ConexionBD.Conectar() == -1){
-                    ConexionBD.GenerarBD();
-                }
+                
             }
         });
     }
-    
-    protected MaskFormatter crearFormato(String s) {
-        MaskFormatter formato = null;
-        try {
-            formato = new MaskFormatter(s);
-        } catch (java.text.ParseException exc) {
-            System.err.println("El MaskFormatter es incorrecto: " + exc.getMessage());
-            System.exit(-1);
-        }
-        return formato;
-    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnGuardar;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel etiquetaApellidos;
+    private javax.swing.JLabel etiquetaMatricula;
+    private javax.swing.JLabel etiquetaNombre;
+    private javax.swing.JLabel etiquetaTitulo;
     private javax.swing.JFormattedTextField txtApellidosAlumno;
     private javax.swing.JFormattedTextField txtMatricula;
     private javax.swing.JFormattedTextField txtNombreAlumno;

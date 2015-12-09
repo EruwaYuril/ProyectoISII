@@ -30,7 +30,7 @@ public class DAOAlumno extends DAOBase{
                   
          int estado = EjecutarGuardado(nombreTabla, valores);
          
-         if(FueExitoso(estado)){
+         if(ValidadorDeEstado.Exito(estado)){
              System.out.println("Alumno: " + matricula + " " + nombreAlumno +
                      " " + apellidosAlumno + ", registrado.");
              return EXITO;
@@ -38,6 +38,7 @@ public class DAOAlumno extends DAOBase{
              System.err.println("Error al registrar alumno con matricula " + matricula);
              return ERROR;
          }
+         
      }
      
      public static int Actualizar(Alumno unAlumno){
@@ -48,12 +49,12 @@ public class DAOAlumno extends DAOBase{
          
          String nombreTabla = "alumnos";
          String nuevosValores = "nombreAlumno = '" + nuevoNombre +
-                 "' AND apellidosAlumno = '" + nuevosApellidos + "'";
+                 "', apellidosAlumno = '" + nuevosApellidos + "'";
          String condicion = "matricula = " + matricula;
          
          int estado = EjecutarActualizacion(nombreTabla, nuevosValores, condicion);
          
-         if(FueExitoso(estado)){
+         if(ValidadorDeEstado.Exito(estado)){
              System.out.println("Nombre y apellidos del registro con matricula " + 
                      matricula + " actualizado.");
              return EXITO;
@@ -72,7 +73,7 @@ public class DAOAlumno extends DAOBase{
          
          int estado = EjecutarEliminacion(nombreTabla, condicion);
          
-         if(FueExitoso(estado)){
+         if(ValidadorDeEstado.Exito(estado)){
              System.out.println("Alumno con matricula [" + unaMatricula + "] eliminado.");
              return EXITO;
          }else{
@@ -85,7 +86,7 @@ public class DAOAlumno extends DAOBase{
         
         ArrayList<Alumno> lista = new ArrayList<>();
         try{
-            Statement consulta = miConexion.createStatement();
+            Statement consulta = conexion.createStatement();
             ResultSet resultado = consulta.executeQuery(
                     "SELECT matricula, nombreAlumno, apellidosAlumno FROM alumnos");
             
@@ -96,7 +97,7 @@ public class DAOAlumno extends DAOBase{
                         resultado.getString("apellidosAlumno")));
             }
         }catch(SQLException ex){
-            System.err.println("Error al generar lista de alumnos. " + ex.getSQLState());
+            System.err.println("Error al generar lista de alumnos. " + ex.getMessage());
             JOptionPane.showMessageDialog(null, "Error al generar la lista de alumnos.",
                     "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -111,7 +112,7 @@ public class DAOAlumno extends DAOBase{
                   
          int estado = EjecutarGuardado(nombreTabla, valores);
          
-         if(FueExitoso(estado)){
+         if(ValidadorDeEstado.Exito(estado)){
              System.out.println("Alumno: " + matricula + " inscrito al grupo" + claveGrupo);
              return EXITO;
          }else{

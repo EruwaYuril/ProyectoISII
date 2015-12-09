@@ -6,9 +6,7 @@
 package Vista;
 
 import Controlador.AdministradorDeProfesor;
-import Controlador.ValidarLongitudTexto;
-import ManejoDatos.ConexionBD;
-import javax.swing.JFrame;
+import ManejoDatos.ValidadorDeLongitudTexto;
 import javax.swing.JOptionPane;
 
 /**
@@ -38,18 +36,18 @@ public class VistaEliminarProfesor extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel2 = new javax.swing.JLabel();
+        etiquetaClave = new javax.swing.JLabel();
         txtClaveProfesor = new javax.swing.JTextField();
         btnEliminar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
+        etiquetaTitulo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
 
-        jLabel2.setText("Clave");
+        etiquetaClave.setText("Clave:");
 
-        txtClaveProfesor.setDocument(new ValidarLongitudTexto(8));
+        txtClaveProfesor.setDocument(new ManejoDatos.ValidadorDeLongitudTexto(8));
         txtClaveProfesor.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtClaveProfesorKeyTyped(evt);
@@ -70,7 +68,7 @@ public class VistaEliminarProfesor extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setText("Eliminar Profesor");
+        etiquetaTitulo.setText("Eliminar Profesor");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -78,11 +76,11 @@ public class VistaEliminarProfesor extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1)
+                .addComponent(etiquetaTitulo)
                 .addGap(158, 158, 158))
             .addGroup(layout.createSequentialGroup()
                 .addGap(39, 39, 39)
-                .addComponent(jLabel2)
+                .addComponent(etiquetaClave)
                 .addGap(37, 37, 37)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
@@ -90,16 +88,16 @@ public class VistaEliminarProfesor extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnCancelar))
                     .addComponent(txtClaveProfesor, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(97, Short.MAX_VALUE))
+                .addContainerGap(93, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addComponent(jLabel1)
+                .addComponent(etiquetaTitulo)
                 .addGap(44, 44, 44)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
+                    .addComponent(etiquetaClave)
                     .addComponent(txtClaveProfesor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 116, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -115,7 +113,7 @@ public class VistaEliminarProfesor extends javax.swing.JFrame {
 
         String clave = txtClaveProfesor.getText();
         
-        if(clave.length()<8){
+        if(clave.length() < ValidadorDeLongitudTexto.LONGITUD_CLAVE){
             JOptionPane.showMessageDialog(null, "ERROR: Clave debe ser de 8 numeros. Ej: 12345678", 
                     "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -174,9 +172,7 @@ public class VistaEliminarProfesor extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                if(ConexionBD.Conectar() == -1){
-                    ConexionBD.GenerarBD();
-                }
+                
             }
         });
     }
@@ -184,8 +180,8 @@ public class VistaEliminarProfesor extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnEliminar;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel etiquetaClave;
+    private javax.swing.JLabel etiquetaTitulo;
     private javax.swing.JTextField txtClaveProfesor;
     // End of variables declaration//GEN-END:variables
 }

@@ -6,16 +6,13 @@
 package Vista;
 
 import Controlador.AdministradorDeAsignatura;
-import ManejoDatos.ConexionBD;
+import ManejoDatos.ValidadorDeEstado;
 import Modulo.Asignatura;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Vector;
-import javax.swing.JFrame;
-import javax.swing.WindowConstants;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -56,7 +53,7 @@ public class VistaAdministradorAsignatura extends javax.swing.JFrame {
         tablaAsignatura = new javax.swing.JTable();
         btnSalir = new javax.swing.JButton();
         btnListar = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
+        etiquetaTitulo = new javax.swing.JLabel();
         btnRegistrar = new javax.swing.JButton();
         btnModificar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
@@ -91,9 +88,9 @@ public class VistaAdministradorAsignatura extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("ADMINISTRADOR ASIGNATURA");
+        etiquetaTitulo.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        etiquetaTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        etiquetaTitulo.setText("ADMINISTRADOR ASIGNATURA");
 
         btnRegistrar.setText("Registrar");
         btnRegistrar.addActionListener(new java.awt.event.ActionListener() {
@@ -123,7 +120,7 @@ public class VistaAdministradorAsignatura extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(etiquetaTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 555, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(73, 73, 73)
@@ -144,7 +141,7 @@ public class VistaAdministradorAsignatura extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addComponent(jLabel1)
+                .addComponent(etiquetaTitulo)
                 .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnRegistrar)
@@ -180,7 +177,7 @@ public class VistaAdministradorAsignatura extends javax.swing.JFrame {
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
         int registroSeleccionado = tablaAsignatura.getSelectedRow();
         VistaModificarAsignatura ventanaModificar;
-        if(registroSeleccionado == -1){
+        if(registroSeleccionado == ValidadorDeEstado.NO_SELECCION){
             ventanaModificar = new VistaModificarAsignatura();
         }else{
             Asignatura asignaturaAModificar = new Asignatura();
@@ -194,7 +191,7 @@ public class VistaAdministradorAsignatura extends javax.swing.JFrame {
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         int registroSeleccionado = tablaAsignatura.getSelectedRow();
         VistaEliminarAsignatura ventanaEliminar;
-        if(registroSeleccionado == -1){
+        if(registroSeleccionado == ValidadorDeEstado.NO_SELECCION){
             ventanaEliminar = new VistaEliminarAsignatura();
         }else{
             String claveAEliminar = (String) tablaAsignatura.getValueAt(registroSeleccionado, 0);
@@ -236,9 +233,7 @@ public class VistaAdministradorAsignatura extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                if(ConexionBD.Conectar() == -1){
-                    ConexionBD.GenerarBD();
-                }
+               
             }
         });
     }
@@ -256,8 +251,9 @@ public class VistaAdministradorAsignatura extends javax.swing.JFrame {
         
         for(int i=0; i<lista.size(); i++){
             Vector<Object> row= new Vector<Object>();
-            row.add(((Asignatura)lista.get(i)).GetNombre());
+            
             row.add(((Asignatura)lista.get(i)).GetClave());
+            row.add(((Asignatura)lista.get(i)).GetNombre());
              
             data.add(row);
         }
@@ -271,7 +267,7 @@ public class VistaAdministradorAsignatura extends javax.swing.JFrame {
     private javax.swing.JButton btnModificar;
     private javax.swing.JButton btnRegistrar;
     private javax.swing.JButton btnSalir;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel etiquetaTitulo;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tablaAsignatura;
     // End of variables declaration//GEN-END:variables

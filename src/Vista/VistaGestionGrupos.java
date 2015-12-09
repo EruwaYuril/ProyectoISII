@@ -5,6 +5,7 @@
 package Vista;
 
 import ManejoDatos.ConexionBD;
+import ManejoDatos.ValidadorDeEstado;
 
 /**
  *
@@ -28,7 +29,7 @@ public class VistaGestionGrupos extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
+        etiquetaTitulo = new javax.swing.JLabel();
         btnAdminAlumno = new javax.swing.JButton();
         btnAdminProfesor = new javax.swing.JButton();
         btnAdminAsignatura = new javax.swing.JButton();
@@ -39,8 +40,8 @@ public class VistaGestionGrupos extends javax.swing.JFrame {
         setTitle("Gestion de Grupos Escolares");
         setResizable(false);
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel1.setText("Sistema de Gestion de Grupos Escolares");
+        etiquetaTitulo.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        etiquetaTitulo.setText("Sistema de Gestion de Grupos Escolares");
 
         btnAdminAlumno.setText("Administrar Alumno");
         btnAdminAlumno.addActionListener(new java.awt.event.ActionListener() {
@@ -89,7 +90,7 @@ public class VistaGestionGrupos extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(54, 54, 54)
-                        .addComponent(jLabel1))
+                        .addComponent(etiquetaTitulo))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -105,7 +106,7 @@ public class VistaGestionGrupos extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
+                .addComponent(etiquetaTitulo)
                 .addGap(31, 31, 31)
                 .addComponent(btnAdminAlumno)
                 .addGap(18, 18, 18)
@@ -185,7 +186,7 @@ public class VistaGestionGrupos extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new VistaGestionGrupos().setVisible(true);
-                if(ConexionBD.Conectar() != 0){
+                if(!ValidadorDeEstado.Exito(ConexionBD.Conectar())){
                     ConexionBD.GenerarBD();
                 }
             }
@@ -197,6 +198,6 @@ public class VistaGestionGrupos extends javax.swing.JFrame {
     private javax.swing.JButton btnAdminGrupos;
     private javax.swing.JButton btnAdminProfesor;
     private javax.swing.JButton btnSalir;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel etiquetaTitulo;
     // End of variables declaration//GEN-END:variables
 }

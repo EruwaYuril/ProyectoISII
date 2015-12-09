@@ -1,5 +1,6 @@
 package Controlador;
 
+import ManejoDatos.ValidadorDeEstado;
 import ManejoDatos.DAOAsignatura;
 import Modulo.Asignatura;
 import java.util.ArrayList;
@@ -18,8 +19,8 @@ public class AdministradorDeAsignatura {
    
    public static String Registrar(Asignatura unaAsignatura){
         
-        if(FueExitoso( DAOAsignatura.Guardar(unaAsignatura))){
-            return "Asignatura guardado!";
+        if(ValidadorDeEstado.Exito(DAOAsignatura.Guardar(unaAsignatura))){
+            return "Asignatura registrada!";
         }else{
             return "Error al registrar asignatura.";
         }
@@ -28,8 +29,8 @@ public class AdministradorDeAsignatura {
     
     public static String Modificar(Asignatura unaAsignatura){
         
-        if(FueExitoso( DAOAsignatura.Actualizar(unaAsignatura))){
-            return "Asignatura modificado!";
+        if(ValidadorDeEstado.Exito(DAOAsignatura.Actualizar(unaAsignatura))){
+            return "Asignatura modificada!";
         }else{
             return "Error al modificar asignatura.";
         }
@@ -38,11 +39,12 @@ public class AdministradorDeAsignatura {
 
     public static String Eliminar(String claveAsignatura){
      
-        if(FueExitoso( DAOAsignatura.Borrar(claveAsignatura))){
-            return "Asignatura eliminado!";
+        if(ValidadorDeEstado.Exito(DAOAsignatura.Borrar(claveAsignatura))){
+            return "Asignatura eliminada!";
         }else{
             return "Error al eliminar asignatura.";
         }
+        
     }
     
     public static ArrayList<Asignatura> ObtenerLista() {
@@ -51,13 +53,4 @@ public class AdministradorDeAsignatura {
         return lista;
    }
     
-    private static final int EXITO = 0;
-    
-    private static boolean FueExitoso(int estado){
-        if(estado == EXITO){
-            return true;
-        }else{
-            return false;
-        }
-    }
 }

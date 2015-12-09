@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Controlador;
+package ManejoDatos;
 
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
@@ -14,30 +14,33 @@ import javax.swing.text.PlainDocument;
  * @author Cristian Xool
  */
 
-public class ValidarLongitudTexto extends PlainDocument {
+public class ValidadorDeLongitudTexto extends PlainDocument {
     
-    public ValidarLongitudTexto(int limite) {
+    public ValidadorDeLongitudTexto(int limite) {
+        
         super();
         this.limite = limite;
+        
     }
     
     @Override
-    public void insertString(int offset, String  str, AttributeSet attr)
-            throws BadLocationException {
+    public void insertString(int offset, String  str, AttributeSet attr)throws BadLocationException {
         
         if (str == null){
             return;
         }
         
         if ((getLength() + str.length()) <= limite) {
-            if (aMayusculas){
-                str = str.toUpperCase();
-            }
+            
             super.insertString(offset, str, attr);
         }
+        
     }
     
+    public static final int LONGITUD_CLAVE = 8;
+    public static final int LONGITUD_MATRICULA = 8;
+    
     private final int limite;
-    private final boolean aMayusculas = false;
+    
 }
 

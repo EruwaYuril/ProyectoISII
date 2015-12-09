@@ -5,10 +5,8 @@
 package Vista;
 
 import Controlador.AdministradorDeAlumno;
-import ManejoDatos.ConexionBD;
-import javax.swing.JFrame;
+import ManejoDatos.ValidadorDeLongitudTexto;
 import javax.swing.JOptionPane;
-import javax.swing.text.MaskFormatter;
 
 /**
  *
@@ -37,18 +35,18 @@ public class VistaEliminarAlumno extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        etiquetaTitulo = new javax.swing.JLabel();
+        etiquetaMatricula = new javax.swing.JLabel();
         btnEliminar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
-        txtMatricula = new javax.swing.JFormattedTextField(crearFormato("########"));
+        txtMatricula = new javax.swing.JFormattedTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
 
-        jLabel1.setText("Eliminar Alumno");
+        etiquetaTitulo.setText("Eliminar Alumno");
 
-        jLabel2.setText("Matricula:");
+        etiquetaMatricula.setText("Matricula:");
 
         btnEliminar.setText("Eliminar");
         btnEliminar.addActionListener(new java.awt.event.ActionListener() {
@@ -64,17 +62,24 @@ public class VistaEliminarAlumno extends javax.swing.JFrame {
             }
         });
 
+        txtMatricula.setDocument(new ManejoDatos.ValidadorDeLongitudTexto(8));
+        txtMatricula.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtMatriculaKeyTyped(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1)
+                .addComponent(etiquetaTitulo)
                 .addGap(158, 158, 158))
             .addGroup(layout.createSequentialGroup()
                 .addGap(39, 39, 39)
-                .addComponent(jLabel2)
+                .addComponent(etiquetaMatricula)
                 .addGap(37, 37, 37)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
@@ -88,10 +93,10 @@ public class VistaEliminarAlumno extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addComponent(jLabel1)
+                .addComponent(etiquetaTitulo)
                 .addGap(44, 44, 44)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
+                    .addComponent(etiquetaMatricula)
                     .addComponent(txtMatricula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 116, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -107,7 +112,7 @@ public class VistaEliminarAlumno extends javax.swing.JFrame {
         
         String matricula = txtMatricula.getText().replaceAll("\\s","");
         
-        if(matricula.length()<8){
+        if(matricula.length() < ValidadorDeLongitudTexto.LONGITUD_MATRICULA){
             JOptionPane.showMessageDialog(null, "ERROR: Matricula debe ser de 8 numeros. Ej: 12345678", 
                     "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -127,6 +132,13 @@ public class VistaEliminarAlumno extends javax.swing.JFrame {
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         this.dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void txtMatriculaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMatriculaKeyTyped
+        // TODO add your handling code here:
+        char validacion = evt.getKeyChar();
+        
+        if(validacion < '0' || validacion > '9')evt.consume();
+    }//GEN-LAST:event_txtMatriculaKeyTyped
 
     /**
      * @param args the command line arguments
@@ -158,28 +170,16 @@ public class VistaEliminarAlumno extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                if(ConexionBD.Conectar() == -1){
-                    ConexionBD.GenerarBD();
-                }
+                
             }
         });
     }
     
-     protected MaskFormatter crearFormato(String s) {
-        MaskFormatter formato = null;
-        try {
-            formato = new MaskFormatter(s);
-        } catch (java.text.ParseException exc) {
-            System.err.println("El MaskFormatter es incorrecto: " + exc.getMessage());
-            System.exit(-1);
-        }
-        return formato;
-    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnEliminar;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel etiquetaMatricula;
+    private javax.swing.JLabel etiquetaTitulo;
     private javax.swing.JFormattedTextField txtMatricula;
     // End of variables declaration//GEN-END:variables
 }

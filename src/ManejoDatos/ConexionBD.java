@@ -25,33 +25,26 @@ public class ConexionBD {
     
     
     public static int Conectar(){
-        miConexion = null;
+        conexion = null;
         try{
             Class.forName("com.mysql.jdbc.Driver");
             String servidor = "jdbc:mysql://localhost/" + baseDatos;
             String usuario = "root";
             String contrasenia = "";
-            miConexion = DriverManager.getConnection(servidor, usuario, contrasenia);
+            conexion = DriverManager.getConnection(servidor, usuario, contrasenia);
             
             System.out.println("Conexion exitosa!");
-            DAOBase.setConexion(miConexion);
+            DAOBase.setConexion(conexion);
             return EXITO;
         } catch (ClassNotFoundException e){
             System.err.println("No se encontro Driver de JBDC. " + e.getMessage());
             return ERROR_JBDC;
         } catch (SQLException ex){
-            System.err.println("No se pudo conectar a la Base de Datos. " + ex.getSQLState());
+            System.err.println("No se pudo conectar a la Base de Datos. " + ex.getMessage());
             return ERROR_CONEXION_BD;
         }
      
     }
-    
-//    public static Connection ObtenerConexion(){
-//        if(miConexion == null){
-//            System.err.println("No hay conexion con la base de datos.");
-//        }
-//        return miConexion;
-//    }
     
     public static int GenerarBD(){
         Statement consulta;
@@ -64,7 +57,7 @@ public class ConexionBD {
                 baseDatos + ";");
             conexionInicial.close();
             Conectar();
-            consulta = miConexion.createStatement();
+            consulta = conexion.createStatement();
             
             consulta.executeUpdate("CREATE TABLE IF NOT EXISTS Alumnos"+
                     "(matricula varchar(8) NOT NULL,"+
@@ -75,7 +68,7 @@ public class ConexionBD {
             
             consulta.executeUpdate("CREATE TABLE IF NOT EXISTS Asignaturas"+
                     "(claveAsignatura varchar(8) NOT NULL,"+
-                    " nombreAsignatura varchar(30),"+
+                    " nombreAsignatura varchar(60),"+
                     " PRIMARY KEY(claveAsignatura)"+
                     ");");
             
@@ -112,12 +105,12 @@ public class ConexionBD {
             System.err.println("No se encontro Driver de JBDC. " + e.getMessage());
             return ERROR_JBDC;
         } catch (SQLException ex) {
-            System.err.println("No se pudo generar la Base de Datos. " + ex.getSQLState());
+            System.err.println("No se pudo generar la Base de Datos. " + ex.getMessage());
             return ERROR_CONEXION_BD;
         }
     }
     
-    private static Connection miConexion = null;
+    private static Connection conexion = null;
     private static String baseDatos = "administradorgpo";
     private static final int EXITO = 0;
     private static final int ERROR_CONEXION_BD = -1;

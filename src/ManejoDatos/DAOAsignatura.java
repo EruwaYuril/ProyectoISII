@@ -28,7 +28,7 @@ public class DAOAsignatura extends DAOBase{
         
         int estado = EjecutarGuardado(nombreTabla, valores);
         
-        if(FueExitoso(estado)){
+        if(ValidadorDeEstado.Exito(estado)){
             System.out.println("Asignatura: " + claveAsignatura + " " + nombreAsignatura + 
                     ", registrado.");
             return EXITO;
@@ -45,12 +45,12 @@ public class DAOAsignatura extends DAOBase{
         
         String nombreTabla = "asignaturas";
         String nuevosValores = "nombreAsignatura = '" + nuevoNombre +"'";
-        String condicion = "claveProfesor = " + claveAsignatura;
+        String condicion = "claveAsignatura = '" + claveAsignatura + "'";
         
         
         int estado = EjecutarActualizacion(nombreTabla, nuevosValores, condicion);
         
-        if(FueExitoso(estado)){
+        if(ValidadorDeEstado.Exito(estado)){
             System.out.println("Nombre del registro con clave: " + 
                     claveAsignatura + "actualizado.");
             return EXITO;
@@ -63,12 +63,12 @@ public class DAOAsignatura extends DAOBase{
     public static int Borrar(String claveAsignatura){
         
         String unaClave = claveAsignatura;
-        String nombreTabla = "asignatura";
-        String condicion = "claveAsignatura = " + claveAsignatura;
+        String nombreTabla = "asignaturas";
+        String condicion = "claveAsignatura = '" + unaClave + "'";
         
         int estado = EjecutarEliminacion(nombreTabla, condicion);
         
-        if(FueExitoso(estado)){
+        if(ValidadorDeEstado.Exito(estado)){
             System.out.println("Asignatura con clave [" + unaClave + "] eliminado.");
             return EXITO;
         }else{
@@ -81,7 +81,7 @@ public class DAOAsignatura extends DAOBase{
       
         ArrayList<Asignatura> lista = new ArrayList<>();
         try{
-            Statement consulta = miConexion.createStatement();
+            Statement consulta = conexion.createStatement();
             ResultSet resultado = consulta.executeQuery(
                     "SELECT claveAsignatura, nombreAsignatura FROM asignaturas");
             while(resultado.next()){
@@ -89,7 +89,7 @@ public class DAOAsignatura extends DAOBase{
                         resultado.getString("nombreAsignatura")));
             }
         }catch(SQLException ex){
-            System.err.println("Error al generar lista de asignaturas. " + ex.getSQLState());
+            System.err.println("Error al generar lista de asignaturas. " + ex.getMessage());
             JOptionPane.showMessageDialog(null, "Error al generar la lista de asignaturas.",
                     "Error", JOptionPane.ERROR_MESSAGE);
         }

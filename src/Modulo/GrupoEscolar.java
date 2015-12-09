@@ -69,7 +69,7 @@ public class GrupoEscolar {
 
     @Override
     public String toString() {
-        return "GrupoEscolar{" + "unProfesor=" + unProfesor + ", unaAsignatura=" + unaAsignatura + ", clave=" + clave + '}';
+        return "[" + clave + "] " + unProfesor + " - " + unaAsignatura;
     }
     
     

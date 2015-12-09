@@ -26,15 +26,15 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
+              <Component id="etiquetaTitulo" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="151" max="-2" attributes="0"/>
           </Group>
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jLabel1" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="jLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="etiquetaNombre" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="etiquetaApellidos" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="etiquetaMatricula" alignment="0" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
@@ -55,20 +55,20 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
-              <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
+              <Component id="etiquetaTitulo" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="etiquetaNombre" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="txtNombreAlumno" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="etiquetaApellidos" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="txtApellidosAlumno" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="etiquetaMatricula" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="txtMatricula" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
@@ -82,7 +82,7 @@
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JLabel" name="jLabel1">
+    <Component class="javax.swing.JLabel" name="etiquetaNombre">
       <Properties>
         <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
           <ComponentRef name="txtNombreAlumno"/>
@@ -90,7 +90,7 @@
         <Property name="text" type="java.lang.String" value="Nombre:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="jLabel2">
+    <Component class="javax.swing.JLabel" name="etiquetaApellidos">
       <Properties>
         <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
           <ComponentRef name="txtApellidosAlumno"/>
@@ -98,7 +98,7 @@
         <Property name="text" type="java.lang.String" value="Apellidos:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="jLabel3">
+    <Component class="javax.swing.JLabel" name="etiquetaMatricula">
       <Properties>
         <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
           <ComponentRef name="txtMatricula"/>
@@ -114,7 +114,7 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnGuardarActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JLabel" name="jLabel4">
+    <Component class="javax.swing.JLabel" name="etiquetaTitulo">
       <Properties>
         <Property name="text" type="java.lang.String" value="Registrar Alumno"/>
       </Properties>
@@ -128,8 +128,11 @@
       </Events>
     </Component>
     <Component class="javax.swing.JFormattedTextField" name="txtMatricula">
+      <Events>
+        <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtMatriculaKeyTyped"/>
+      </Events>
       <AuxValues>
-        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JFormattedTextField(crearFormato(&quot;########&quot;))"/>
+        <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="txtMatricula.setDocument(new ManejoDatos.ValidadorDeLongitudTexto(8));"/>
       </AuxValues>
     </Component>
     <Component class="javax.swing.JFormattedTextField" name="txtNombreAlumno">
@@ -137,7 +140,7 @@
         <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtNombreAlumnoKeyTyped"/>
       </Events>
       <AuxValues>
-        <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="txtNombreAlumno.setDocument(new ValidarLongitudTexto(30));"/>
+        <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="txtNombreAlumno.setDocument(new ManejoDatos.ValidadorDeLongitudTexto(30));"/>
       </AuxValues>
     </Component>
     <Component class="javax.swing.JFormattedTextField" name="txtApellidosAlumno">
@@ -145,7 +148,7 @@
         <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtApellidosAlumnoKeyTyped"/>
       </Events>
       <AuxValues>
-        <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="txtApellidosAlumno.setDocument(new ValidarLongitudTexto(30));"/>
+        <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="txtApellidosAlumno.setDocument(new ManejoDatos.ValidadorDeLongitudTexto(30));"/>
       </AuxValues>
     </Component>
   </SubComponents>

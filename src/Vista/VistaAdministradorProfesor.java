@@ -7,15 +7,13 @@ package Vista;
 
 
 import Controlador.AdministradorDeProfesor;
-import ManejoDatos.ConexionBD;
+import ManejoDatos.ValidadorDeEstado;
 import Modulo.Profesor;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Vector;
-import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -55,7 +53,7 @@ public class VistaAdministradorProfesor extends javax.swing.JFrame {
 
         btnSalir = new javax.swing.JButton();
         btnListar = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
+        etiquetaTitulo = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaProfesor = new javax.swing.JTable();
         btnRegistrar = new javax.swing.JButton();
@@ -79,9 +77,9 @@ public class VistaAdministradorProfesor extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("ADMINISTRADOR PROFESOR");
+        etiquetaTitulo.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        etiquetaTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        etiquetaTitulo.setText("ADMINISTRADOR PROFESOR");
 
         tablaProfesor.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -124,7 +122,7 @@ public class VistaAdministradorProfesor extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(etiquetaTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 550, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(73, 73, 73)
@@ -145,7 +143,7 @@ public class VistaAdministradorProfesor extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addComponent(jLabel1)
+                .addComponent(etiquetaTitulo)
                 .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnRegistrar)
@@ -181,7 +179,7 @@ public class VistaAdministradorProfesor extends javax.swing.JFrame {
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
         int registroSeleccionado = tablaProfesor.getSelectedRow();
         VistaModificarProfesor ventanaModificar;
-        if(registroSeleccionado == -1){
+        if(registroSeleccionado == ValidadorDeEstado.NO_SELECCION){
             ventanaModificar = new VistaModificarProfesor();
         }else{
             Profesor profesorAModificar = new Profesor();
@@ -196,7 +194,7 @@ public class VistaAdministradorProfesor extends javax.swing.JFrame {
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         int registroSeleccionado = tablaProfesor.getSelectedRow();
         VistaEliminarProfesor ventanaEliminar;
-        if(registroSeleccionado == -1){
+        if(registroSeleccionado == ValidadorDeEstado.NO_SELECCION){
             ventanaEliminar = new VistaEliminarProfesor();
         }else{
             String claveAEliminar = (String) tablaProfesor.getValueAt(registroSeleccionado, 0);
@@ -236,31 +234,29 @@ public class VistaAdministradorProfesor extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                if(ConexionBD.Conectar() == -1){
-                    ConexionBD.GenerarBD();
-                }
+                
             }
         });
     }
     
     private void actualizarTabla(){
        
-        AdministradorDeProfesor unAdministrador = new AdministradorDeProfesor();
-        ArrayList<Profesor> lista = unAdministrador.ObtenerLista();
+        ArrayList<Profesor> lista = AdministradorDeProfesor.ObtenerLista();
         
         Vector <String> titulo = new Vector<String>();
         Vector<Vector<Object>> data= new Vector<Vector<Object>>();
         
-        titulo.add("Matricula");
+        titulo.add("Clave");
         titulo.add("Nombre(s)");
         titulo.add("Apellidos");
         
         
         for(int i=0; i<lista.size(); i++){
             Vector<Object> row= new Vector<Object>();
+            
+            row.add(((Profesor)lista.get(i)).GetClave());
             row.add(((Profesor)lista.get(i)).GetNombre());
             row.add(((Profesor)lista.get(i)).GetApellidos());
-            row.add(((Profesor)lista.get(i)).GetClave());
              
             data.add(row);
         }
@@ -276,7 +272,7 @@ public class VistaAdministradorProfesor extends javax.swing.JFrame {
     private javax.swing.JButton btnModificar;
     private javax.swing.JButton btnRegistrar;
     private javax.swing.JButton btnSalir;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel etiquetaTitulo;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tablaProfesor;
     // End of variables declaration//GEN-END:variables

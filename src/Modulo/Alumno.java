@@ -8,12 +8,6 @@ package Modulo;
  * 
  */
 public class Alumno {
-    
-    //HolaCristian
-    
-    private String nombre; 
-    private String apellidos; 
-    private String matricula;
 
     public Alumno(String matricula, String nombre, String apellidos) {
         this.matricula = matricula;
@@ -22,9 +16,6 @@ public class Alumno {
     }
 
     public Alumno() {
-        this.matricula = "";
-        this.nombre = "";
-        this.apellidos = "";
         
     }
 
@@ -51,4 +42,9 @@ public class Alumno {
     public String GetMatricula() {
         return matricula;
     }
+    
+    private String matricula;
+    private String nombre; 
+    private String apellidos; 
+    
 }

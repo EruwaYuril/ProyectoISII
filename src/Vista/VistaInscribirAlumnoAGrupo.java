@@ -7,30 +7,28 @@
 package Vista;
 
 import Controlador.AdministradorDeAlumno;
-import Controlador.AdministradorDeAsignatura;
 import Controlador.AdministradorDeGrupo;
-import ManejoDatos.ConexionBD;
+import ManejoDatos.ValidadorDeEstado;
 import Modulo.Alumno;
-import Modulo.Asignatura;
 import Modulo.GrupoEscolar;
-import java.sql.SQLException;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author Aaron
  */
-public class VistaInscribirAlumno extends javax.swing.JFrame {
+public class VistaInscribirAlumnoAGrupo extends javax.swing.JFrame {
 
     /**
      * Creates new form VistaInscribirAlumno
      */
-    public VistaInscribirAlumno() {
-        initComponents();
-        cargarCombosBox();
-    }
+//    public VistaInscribirAlumnoAGrupo() {
+//        initComponents();
+//        cargarCombosBox();
+//    }
     
-    public VistaInscribirAlumno(Alumno alumnoAInscribir){
+    public VistaInscribirAlumnoAGrupo(Alumno alumnoAInscribir){
         initComponents();
         
         etiquetaNombre.setText(alumnoAInscribir.GetNombre());
@@ -55,8 +53,9 @@ public class VistaInscribirAlumno extends javax.swing.JFrame {
         etiquetaMatricula = new javax.swing.JLabel();
         labelNombre = new javax.swing.JLabel();
         etiquetaNombre = new javax.swing.JLabel();
+        btnSalir = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         guardar.setText("Guardar");
         guardar.addActionListener(new java.awt.event.ActionListener() {
@@ -67,17 +66,20 @@ public class VistaInscribirAlumno extends javax.swing.JFrame {
 
         etiquetaAlumno.setText("Alumno:");
 
-        etiquetaGrupo.setText("Grupo");
+        etiquetaGrupo.setText("Grupo:");
+
+        btnSalir.setText("Salir");
+        btnSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalirActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(161, 161, 161)
-                .addComponent(guardar)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(56, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(etiquetaGrupo)
@@ -88,8 +90,13 @@ public class VistaInscribirAlumno extends javax.swing.JFrame {
                         .addComponent(etiquetaNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(labelNombre))
-                    .addComponent(comboAsignatura, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(etiquetaMatricula, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(etiquetaMatricula, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(guardar)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnSalir))
+                        .addComponent(comboAsignatura, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(59, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -111,7 +118,9 @@ public class VistaInscribirAlumno extends javax.swing.JFrame {
                     .addComponent(comboAsignatura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(etiquetaGrupo))
                 .addGap(62, 62, 62)
-                .addComponent(guardar)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(guardar)
+                    .addComponent(btnSalir))
                 .addContainerGap(35, Short.MAX_VALUE))
         );
 
@@ -119,11 +128,27 @@ public class VistaInscribirAlumno extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarActionPerformed
-        // TODO add your handling code here:
-
-        GrupoEscolar grupoEscolar = ((GrupoEscolar)comboAsignatura.getSelectedItem());
-        AdministradorDeAlumno.InscribirAlumno(grupoEscolar.GetClave(), etiquetaMatricula.getText());
+        
+        if(comboAsignatura.getSelectedItem() != null){
+            GrupoEscolar grupoEscolar = ((GrupoEscolar)comboAsignatura.getSelectedItem());
+            AdministradorDeAlumno.InscribirAlumno(grupoEscolar.GetClave(), etiquetaMatricula.getText());
+            if(JOptionPane.showConfirmDialog(null, "Desea inscribir otra?",
+                    "Inscribir", JOptionPane.YES_NO_OPTION) == JOptionPane.NO_OPTION){
+                this.dispose();
+            }else{
+                comboAsignatura.setSelectedIndex(ValidadorDeEstado.NO_SELECCION);
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "ERROR: Seleccionar una materia para inscribir.", 
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        
+        
     }//GEN-LAST:event_guardarActionPerformed
+
+    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_btnSalirActionPerformed
 
     /**
      * @param args the command line arguments
@@ -142,43 +167,37 @@ public class VistaInscribirAlumno extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(VistaInscribirAlumno.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VistaInscribirAlumnoAGrupo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(VistaInscribirAlumno.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VistaInscribirAlumnoAGrupo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(VistaInscribirAlumno.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VistaInscribirAlumnoAGrupo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(VistaInscribirAlumno.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VistaInscribirAlumnoAGrupo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                 if(ConexionBD.Conectar() == -1){
-                    ConexionBD.GenerarBD();
-                }
+                
             }
         });
     }
     
     private void cargarCombosBox(){
         ArrayList<GrupoEscolar> listaGrupos;
-                
+        
         listaGrupos = AdministradorDeGrupo.ObtenerLista();
         
         for(int i=0; i<listaGrupos.size(); i++){
-            
             comboAsignatura.addItem(((GrupoEscolar)listaGrupos.get(i)));
-           
         }
-       
-        
-        
         
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnSalir;
     private javax.swing.JComboBox comboAsignatura;
     private javax.swing.JLabel etiquetaAlumno;
     private javax.swing.JLabel etiquetaGrupo;

@@ -5,7 +5,9 @@
  */
 package ManejoDatos;
 
+import Modulo.Alumno;
 import Modulo.Asignatura;
+import Modulo.GrupoAlumno;
 import Modulo.GrupoEscolar;
 import Modulo.Profesor;
 import java.sql.ResultSet;
@@ -39,7 +41,7 @@ public class DAOGrupoEscolar extends DAOBase{
         int estado = EjecutarGuardado(nombreTabla, valores);
         
         
-        if(FueExitoso(estado)){
+        if(ValidadorDeEstado.Exito(estado)){
              System.out.println("Grupo " + clave + " registrado");
              return EXITO;
          }else{
@@ -64,7 +66,7 @@ public class DAOGrupoEscolar extends DAOBase{
                         
         int estado = EjecutarActualizacion(nombreTabla, valores, condicion);
             
-         if(FueExitoso(estado)){
+         if(ValidadorDeEstado.Exito(estado)){
              System.out.println("Grupo " + clave + " actualizado.");
              return EXITO;
          }else{
@@ -82,7 +84,7 @@ public class DAOGrupoEscolar extends DAOBase{
             
             int estado = EjecutarEliminacion(nombreTabla, condicion);
             
-         if(FueExitoso(estado)){
+         if(ValidadorDeEstado.Exito(estado)){
              System.out.println("Grupo [" + clave + "] eliminado.");
              return EXITO;
          }else{
@@ -97,45 +99,71 @@ public class DAOGrupoEscolar extends DAOBase{
         ArrayList<GrupoEscolar> lista = new ArrayList<>();
         try{
             
-            Statement consulta = miConexion.createStatement();
+            Statement consulta = conexion.createStatement();
             ResultSet resultado = consulta.executeQuery(
                     "SELECT * FROM grupoescolar gpo JOIN asignaturas asig ON "
                             + "gpo.claveAsignatura = asig.claveAsignatura JOIN profesores prof "
                             + "ON gpo.claveProfesor = prof.claveProfesor");
            
             while(resultado.next()){
-                Profesor unProfesor= new Profesor(resultado.getString("nombreProfesor"), resultado.getString("apellidosProfesor"), resultado.getString("claveProfesor"));
-                Asignatura unaAsignatura = new Asignatura(resultado.getString("nombreAsignatura"), resultado.getString("claveAsignatura"));
+                Profesor unProfesor= new Profesor(resultado.getString("nombreProfesor"), 
+                        resultado.getString("apellidosProfesor"), 
+                        resultado.getString("claveProfesor"));
+                Asignatura unaAsignatura = new Asignatura(resultado.getString("nombreAsignatura"), 
+                        resultado.getString("claveAsignatura"));
                 
                 lista.add(new GrupoEscolar(
-                        resultado.getString("claveGrupo"), unaAsignatura, unProfesor, resultado.getString("aula"), resultado.getString("horario")));
+                        resultado.getString("claveGrupo"), 
+                        unaAsignatura, unProfesor, 
+                        resultado.getString("aula"), 
+                        resultado.getString("horario")));
             }
         }catch(SQLException ex){
-            System.err.println("Error al generar lista. " + ex);
+            System.err.println("Error al generar lista. " + ex.getMessage());
             JOptionPane.showMessageDialog(null, "Error al generar la lista.",
                     "Error Lista", JOptionPane.ERROR_MESSAGE);
         }
         return lista;
    }
-
-    public static void Inscribir(String clave, String matricula) {
-             
-       /* Connection miConexion = BaseDatos.ObtenerConexion(); 
+    
+    public static ArrayList<GrupoAlumno> GenerarListaAlumnos(String claveGrupo){
+              
+        ArrayList<GrupoAlumno> lista = new ArrayList<>();
+        System.out.println(claveGrupo);
         try{
-            PreparedStatement consulta = miConexion.prepareStatement("INSERT INTO "+
-                    "inscripciongrupo (claveGrupo, matricula) "+
-                    "VALUES (?, ?)");
-            consulta.setString(1,clave );
-            consulta.setString(2, matricula);
             
-            
-            consulta.executeUpdate();
-            System.out.println("Alumno: " + clave + ", registrado.");
-          
+            Statement consulta = conexion.createStatement();
+            ResultSet resultado = consulta.executeQuery(
+                    "SELECT ins.claveGrupo, ins.matricula, nombreAlumno, apellidosAlumno, asig.claveAsignatura, nombreAsignatura, aula, horario,"
+                            + "prof.claveProfesor, nombreProfesor, apellidosProfesor "
+                            + "    FROM inscripciongrupo ins JOIN alumnos "
+                            + "ON ins.matricula = alumnos.matricula "
+                            + "JOIN grupoescolar gpo ON ins.claveGrupo = gpo.claveGrupo "
+                            + "JOIN asignaturas asig ON gpo.claveAsignatura = asig.claveAsignatura "
+                            + "JOIN profesores prof ON gpo.claveProfesor = prof.claveProfesor "
+                            + "WHERE ins.claveGrupo = '" + claveGrupo + "'");
+           
+            while(resultado.next()){
+                Profesor unProfesor= new Profesor(resultado.getString("nombreProfesor"), 
+                        resultado.getString("apellidosProfesor"), 
+                        resultado.getString("claveProfesor"));
+                Asignatura unaAsignatura = new Asignatura(resultado.getString("claveAsignatura"), 
+                        resultado.getString("nombreAsignatura"));
+                GrupoEscolar unGrupo = new GrupoEscolar(resultado.getString("claveGrupo"), 
+                        unaAsignatura, unProfesor, resultado.getString("aula"), 
+                        resultado.getString("horario"));
+                Alumno unAlumno = new Alumno(resultado.getString("matricula"), 
+                        resultado.getString("nombreAlumno"), 
+                        resultado.getString("apellidosAlumno"));
+                
+                lista.add(new GrupoAlumno(unGrupo, unAlumno));
+            }
         }catch(SQLException ex){
-            System.err.println("Error al inscribir alumno.");
-        }*/
-        
-    }
+            System.err.println("Error al generar lista. " + ex.getMessage());
+            JOptionPane.showMessageDialog(null, "Error al generar la lista.",
+                    "Error Lista", JOptionPane.ERROR_MESSAGE);
+        }
+        return lista;
+   }
     
 }

@@ -20,7 +20,7 @@ public class DAOProfesor extends DAOBase{
     
      public static int Guardar(Profesor unProfesor){
         
-        String nombreTable = "profesores(claveProfesor, nombreProfesor, apellidosProfesor)";
+        String nombreTabla = "profesores(claveProfesor, nombreProfesor, apellidosProfesor)";
          
         String nombreProfesor = unProfesor.GetNombre();
         String apellidosProfesor = unProfesor.GetApellidos();
@@ -28,9 +28,9 @@ public class DAOProfesor extends DAOBase{
         String valores = "'" + claveProfesor + "','" + nombreProfesor + "','" +
                 apellidosProfesor + "'";
         
-        int estado = EjecutarGuardado(nombreTable, valores);
+        int estado = EjecutarGuardado(nombreTabla, valores);
         
-        if(FueExitoso(estado)){
+        if(ValidadorDeEstado.Exito(estado)){
             System.out.println("Profesor: " + claveProfesor + " " + nombreProfesor + 
                     " " + apellidosProfesor + ", registrado.");
             return EXITO;
@@ -44,16 +44,16 @@ public class DAOProfesor extends DAOBase{
         
         String claveProfesor = unProfesor.GetClave();
         String nuevoNombre = unProfesor.GetNombre();
-        String nuevosApellidos = unProfesor.GetNombre();
+        String nuevosApellidos = unProfesor.GetApellidos();
         
-        String nombreTabla = "profesor";
+        String nombreTabla = "profesores";
         String nuevosValores = "nombreProfesor = '" + nuevoNombre + 
-                "'AND apellidosProfesor = '" + nuevosApellidos + "'";
+                "', apellidosProfesor = '" + nuevosApellidos + "'";
         String condicion = "claveProfesor = " + claveProfesor;
         
         int estado = EjecutarActualizacion(nombreTabla, nuevosValores, condicion);
         
-        if(FueExitoso(estado)){
+        if(ValidadorDeEstado.Exito(estado)){
             System.out.println("Nombre y apellidos del registro con calve: " +
                     claveProfesor + " actualizado.");
             return EXITO;
@@ -71,7 +71,7 @@ public class DAOProfesor extends DAOBase{
         
         int estado = EjecutarEliminacion(nombreTabla, condicion);
         
-        if(FueExitoso(estado)){
+        if(ValidadorDeEstado.Exito(estado)){
             System.out.println("Profesor con clave [" + unaClave + "] eliminado.");
             return EXITO;
         }else{
@@ -84,7 +84,7 @@ public class DAOProfesor extends DAOBase{
       
         ArrayList<Profesor> lista = new ArrayList<>();
         try{
-            Statement consulta = miConexion.createStatement();
+            Statement consulta = conexion.createStatement();
             ResultSet resultado = consulta.executeQuery(
                     "SELECT claveProfesor, nombreProfesor, apellidosProfesor FROM profesores");
             while(resultado.next()){
@@ -94,7 +94,7 @@ public class DAOProfesor extends DAOBase{
                         resultado.getString("apellidosProfesor")));
             }
         }catch(SQLException ex){
-            System.err.println("Error al generar lista de profesores. " + ex.getSQLState());
+            System.err.println("Error al generar lista de profesores. " + ex.getMessage());
             JOptionPane.showMessageDialog(null, "Error al generar la lista de profesores.",
                     "Error", JOptionPane.ERROR_MESSAGE);
         }

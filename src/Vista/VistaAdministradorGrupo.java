@@ -7,16 +7,14 @@
 package Vista;
 
 import Controlador.AdministradorDeGrupo;
-import ManejoDatos.ConexionBD;
-import Modulo.Asignatura;
+import ManejoDatos.ValidadorDeEstado;
 import Modulo.GrupoEscolar;
-import Modulo.Profesor;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.util.ArrayList;
 import java.util.Vector;
-import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -33,7 +31,6 @@ public class VistaAdministradorGrupo extends javax.swing.JFrame {
         menuPrincipal = ventanaPadre;
         this.setLocationRelativeTo(menuPrincipal);
         
-        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         WindowListener exitListener = new WindowAdapter() {
             
             @Override
@@ -63,8 +60,10 @@ public class VistaAdministradorGrupo extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaGrupo = new javax.swing.JTable();
+        btnListarAlumnos = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        setResizable(false);
 
         btnRegistrar.setText("Registrar");
         btnRegistrar.addActionListener(new java.awt.event.ActionListener() {
@@ -118,6 +117,13 @@ public class VistaAdministradorGrupo extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(tablaGrupo);
 
+        btnListarAlumnos.setText("Listar Alumnos");
+        btnListarAlumnos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnListarAlumnosActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -139,6 +145,8 @@ public class VistaAdministradorGrupo extends javax.swing.JFrame {
                         .addComponent(btnModificar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnEliminar)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnListarAlumnos)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -151,7 +159,8 @@ public class VistaAdministradorGrupo extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnRegistrar)
                     .addComponent(btnModificar)
-                    .addComponent(btnEliminar))
+                    .addComponent(btnEliminar)
+                    .addComponent(btnListarAlumnos))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 78, Short.MAX_VALUE)
@@ -172,7 +181,7 @@ public class VistaAdministradorGrupo extends javax.swing.JFrame {
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
         int registroSeleccionado = tablaGrupo.getSelectedRow();
         VistaModificarGrupoEscolar ventanaModificar;
-        if(registroSeleccionado == -1){
+        if(registroSeleccionado == ValidadorDeEstado.NO_SELECCION){
             ventanaModificar = new VistaModificarGrupoEscolar();
         }else{
             GrupoEscolar grupoModificar = new GrupoEscolar();
@@ -189,7 +198,7 @@ public class VistaAdministradorGrupo extends javax.swing.JFrame {
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         int registroSeleccionado = tablaGrupo.getSelectedRow();
         VistaEliminarGrupoEscolar ventanaEliminar;
-        if(registroSeleccionado == -1){
+        if(registroSeleccionado == ValidadorDeEstado.NO_SELECCION){
             ventanaEliminar = new VistaEliminarGrupoEscolar();
         }else{
             String claveEliminar = (String) tablaGrupo.getValueAt(registroSeleccionado, 0);
@@ -206,6 +215,21 @@ public class VistaAdministradorGrupo extends javax.swing.JFrame {
     private void btnListarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListarActionPerformed
         actualizarTabla();
     }//GEN-LAST:event_btnListarActionPerformed
+
+    private void btnListarAlumnosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListarAlumnosActionPerformed
+
+        int registroSeleccionado = tablaGrupo.getSelectedRow();
+        if(registroSeleccionado == ValidadorDeEstado.NO_SELECCION){
+            JOptionPane.showMessageDialog(null, 
+                    "ERROR: Seleccionar grupo de la tabla para listar los alumnos registrados en el.", 
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        }else{
+            String claveGrupo = (String) tablaGrupo.getValueAt(registroSeleccionado, 0);
+            VistaListarGrupo ventanaListar = new VistaListarGrupo(claveGrupo);
+            ventanaListar.setVisible(true);
+        }
+        
+    }//GEN-LAST:event_btnListarAlumnosActionPerformed
 
     /**
      * @param args the command line arguments
@@ -237,9 +261,7 @@ public class VistaAdministradorGrupo extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-               if(ConexionBD.Conectar() == -1){
-                    ConexionBD.GenerarBD();
-                }
+               
             }
         });
     }
@@ -278,6 +300,7 @@ public class VistaAdministradorGrupo extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnListar;
+    private javax.swing.JButton btnListarAlumnos;
     private javax.swing.JButton btnModificar;
     private javax.swing.JButton btnRegistrar;
     private javax.swing.JButton btnSalir;
@@ -286,4 +309,5 @@ public class VistaAdministradorGrupo extends javax.swing.JFrame {
     private javax.swing.JTable tablaGrupo;
     // End of variables declaration//GEN-END:variables
     private VistaGestionGrupos menuPrincipal;
+    
 }

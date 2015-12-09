@@ -6,9 +6,6 @@
 package Vista;
 
 import Controlador.AdministradorDeAsignatura;
-import Controlador.ValidarLongitudTexto;
-import ManejoDatos.ConexionBD;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
@@ -41,13 +38,18 @@ public class VistaEliminarAsignatura extends javax.swing.JFrame {
         txtClaveAsignatura = new javax.swing.JTextField();
         btnEliminar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        etiquetaTitulo = new javax.swing.JLabel();
+        etiquetaClave = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
 
-        txtClaveAsignatura.setDocument(new ValidarLongitudTexto(8));
+        txtClaveAsignatura.setDocument(new ManejoDatos.ValidadorDeLongitudTexto(8));
+        txtClaveAsignatura.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtClaveAsignaturaActionPerformed(evt);
+            }
+        });
         txtClaveAsignatura.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtClaveAsignaturaKeyTyped(evt);
@@ -68,9 +70,9 @@ public class VistaEliminarAsignatura extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setText("Eliminar Asignatura");
+        etiquetaTitulo.setText("Eliminar Asignatura");
 
-        jLabel2.setText("Clave:");
+        etiquetaClave.setText("Clave:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -78,11 +80,11 @@ public class VistaEliminarAsignatura extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1)
+                .addComponent(etiquetaTitulo)
                 .addGap(158, 158, 158))
             .addGroup(layout.createSequentialGroup()
                 .addGap(39, 39, 39)
-                .addComponent(jLabel2)
+                .addComponent(etiquetaClave)
                 .addGap(37, 37, 37)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
@@ -96,10 +98,10 @@ public class VistaEliminarAsignatura extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addComponent(jLabel1)
+                .addComponent(etiquetaTitulo)
                 .addGap(44, 44, 44)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
+                    .addComponent(etiquetaClave)
                     .addComponent(txtClaveAsignatura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 116, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -110,27 +112,21 @@ public class VistaEliminarAsignatura extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-
+        
         String clave = txtClaveAsignatura.getText();
         
-        if(clave.length()<8){
-            JOptionPane.showMessageDialog(null, "ERROR: Clave debe ser de 8 numeros. Ej: 12345678", 
-                    "Error", JOptionPane.ERROR_MESSAGE);
-        }
-        else {
-            String msjResultado = AdministradorDeAsignatura.Eliminar(clave);
-            JOptionPane.showMessageDialog(null, msjResultado,
-                    "Resultado", JOptionPane.INFORMATION_MESSAGE);
-            if(JOptionPane.showConfirmDialog(null, "Desea eliminar otra?",
-                    "Registrar", JOptionPane.YES_NO_OPTION) == JOptionPane.NO_OPTION){
-                this.dispose();
-            }
+        String msjResultado = AdministradorDeAsignatura.Eliminar(clave);
+        JOptionPane.showMessageDialog(null, msjResultado,
+                "Resultado", JOptionPane.INFORMATION_MESSAGE);
+        if(JOptionPane.showConfirmDialog(null, "Desea eliminar otra?",
+                "Registrar", JOptionPane.YES_NO_OPTION) == JOptionPane.NO_OPTION){
+            this.dispose();
         }
         
         txtClaveAsignatura.setText("");
-        AdministradorDeAsignatura.Eliminar(clave);
+        
 
     }//GEN-LAST:event_btnEliminarActionPerformed
 
@@ -143,8 +139,13 @@ public class VistaEliminarAsignatura extends javax.swing.JFrame {
         // TODO add your handling code here:
         char validacion = evt.getKeyChar();
         
-        if(validacion<'0' || validacion>'9')evt.consume();
+        if((validacion<'A' || validacion>'Z')&&(validacion<'0' || validacion>'9')&&
+                (validacion<'-' || validacion>'-'))evt.consume();
     }//GEN-LAST:event_txtClaveAsignaturaKeyTyped
+
+    private void txtClaveAsignaturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtClaveAsignaturaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtClaveAsignaturaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -176,9 +177,7 @@ public class VistaEliminarAsignatura extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                if(ConexionBD.Conectar() == -1){
-                    ConexionBD.GenerarBD();
-                }
+               
             }
         });
     }
@@ -186,8 +185,8 @@ public class VistaEliminarAsignatura extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnEliminar;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel etiquetaClave;
+    private javax.swing.JLabel etiquetaTitulo;
     private javax.swing.JTextField txtClaveAsignatura;
     // End of variables declaration//GEN-END:variables
 }

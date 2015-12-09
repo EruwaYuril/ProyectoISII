@@ -1,7 +1,7 @@
 package Controlador;
 
+import ManejoDatos.ValidadorDeEstado;
 import ManejoDatos.DAOAlumno;
-import ManejoDatos.DAOGrupoEscolar;
 import Modulo.Alumno;
 import java.util.ArrayList;
 
@@ -21,7 +21,7 @@ public class AdministradorDeAlumno {
     
     public static String Registrar(Alumno unAlumno){
         
-        if(FueExitoso( DAOAlumno.Guardar(unAlumno) )){
+        if(ValidadorDeEstado.Exito(DAOAlumno.Guardar(unAlumno) )){
             return "Alumno guardado!";
         }else{
             return "Error al registrar alumno.";
@@ -31,7 +31,7 @@ public class AdministradorDeAlumno {
     
     public static String Modificar(Alumno unAlumno){
         
-        if(FueExitoso( DAOAlumno.Actualizar(unAlumno) ) ){
+        if(ValidadorDeEstado.Exito(DAOAlumno.Actualizar(unAlumno) ) ){
             return "Alumno modificado!";
         }else{
             return "Error al modificar alumno.";
@@ -41,11 +41,12 @@ public class AdministradorDeAlumno {
 
     public static String Eliminar(String matricula){
      
-        if(FueExitoso( DAOAlumno.Borrar(matricula) ) ){
+        if(ValidadorDeEstado.Exito( DAOAlumno.Borrar(matricula) ) ){
             return "Alumno eliminado!";
         }else{
             return "Error al eliminar alumno.";
         }
+        
     }
 
     public static ArrayList<Alumno> ObtenerLista(){
@@ -58,18 +59,6 @@ public class AdministradorDeAlumno {
     public static void InscribirAlumno(String clave, String matricula){
         DAOAlumno.GuardarRelacion(clave, matricula);
         
-    }
-    
-    
-    
-    private static final int EXITO = 0;
-    
-    private static boolean FueExitoso(int estado){
-        if(estado == EXITO){
-            return true;
-        }else{
-            return false;
-        }
     }
     
 }

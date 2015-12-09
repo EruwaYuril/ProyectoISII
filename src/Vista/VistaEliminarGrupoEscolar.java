@@ -6,8 +6,9 @@
 
 package Vista;
 
-import ManejoDatos.ConexionBD;
 import Controlador.AdministradorDeGrupo;
+import ManejoDatos.ValidadorDeLongitudTexto;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -24,7 +25,7 @@ public class VistaEliminarGrupoEscolar extends javax.swing.JFrame {
     
     public VistaEliminarGrupoEscolar(String claveEliminar){
         initComponents();
-        txtClave.setText(claveEliminar);
+        txtClaveGrupo.setText(claveEliminar);
        
     }
 
@@ -42,11 +43,11 @@ public class VistaEliminarGrupoEscolar extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         btnEliminar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
-        txtClave = new javax.swing.JTextField();
+        txtClaveGrupo = new javax.swing.JTextField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jLabel1.setText("Eliminar GRUPO");
+        jLabel1.setText("Eliminar Grupo");
 
         jLabel2.setText("Clave:");
 
@@ -61,6 +62,13 @@ public class VistaEliminarGrupoEscolar extends javax.swing.JFrame {
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelarActionPerformed(evt);
+            }
+        });
+
+        txtClaveGrupo.setDocument(new ManejoDatos.ValidadorDeLongitudTexto(8));
+        txtClaveGrupo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtClaveGrupoKeyTyped(evt);
             }
         });
 
@@ -81,7 +89,7 @@ public class VistaEliminarGrupoEscolar extends javax.swing.JFrame {
                         .addComponent(btnEliminar)
                         .addGap(56, 56, 56)
                         .addComponent(btnCancelar))
-                    .addComponent(txtClave))
+                    .addComponent(txtClaveGrupo))
                 .addContainerGap(93, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -92,7 +100,7 @@ public class VistaEliminarGrupoEscolar extends javax.swing.JFrame {
                 .addGap(44, 44, 44)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(txtClave, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtClaveGrupo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 116, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnEliminar)
@@ -105,15 +113,35 @@ public class VistaEliminarGrupoEscolar extends javax.swing.JFrame {
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
 
-        String clave = txtClave.getText();
-        AdministradorDeGrupo.Eliminar(clave);
-        txtClave.setText("");
+        String claveGrupo = txtClaveGrupo.getText();
+        
+        if(claveGrupo.length() < ValidadorDeLongitudTexto.LONGITUD_CLAVE){
+            JOptionPane.showMessageDialog(null, "ERROR: Clave debe ser de 8 numeros. Ej: 12345678", 
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        else {
+            String msjResultado = AdministradorDeGrupo.Eliminar(claveGrupo);
+            JOptionPane.showMessageDialog(null, msjResultado,
+                    "Resultado", JOptionPane.INFORMATION_MESSAGE);
+            if(JOptionPane.showConfirmDialog(null, "Desea eliminar otro?",
+                    "Registrar", JOptionPane.YES_NO_OPTION) == JOptionPane.NO_OPTION){
+                this.dispose();
+            }
+        }
+        txtClaveGrupo.setText("");
 
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         this.dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void txtClaveGrupoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtClaveGrupoKeyTyped
+        // TODO add your handling code here:
+        char validacion = evt.getKeyChar();
+        
+        if(validacion < '0' || validacion > '9')evt.consume();
+    }//GEN-LAST:event_txtClaveGrupoKeyTyped
 
     /**
      * @param args the command line arguments
@@ -145,9 +173,7 @@ public class VistaEliminarGrupoEscolar extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                if(ConexionBD.Conectar() == -1){
-                    ConexionBD.GenerarBD();
-                }
+                
             }
         });
     }
@@ -157,6 +183,6 @@ public class VistaEliminarGrupoEscolar extends javax.swing.JFrame {
     private javax.swing.JButton btnEliminar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JTextField txtClave;
+    private javax.swing.JTextField txtClaveGrupo;
     // End of variables declaration//GEN-END:variables
 }

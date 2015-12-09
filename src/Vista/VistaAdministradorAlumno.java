@@ -6,14 +6,14 @@
 package Vista;
 
 import Controlador.AdministradorDeAlumno;
-import ManejoDatos.ConexionBD;
+import ManejoDatos.ValidadorDeEstado;
 import Modulo.Alumno;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.util.ArrayList;
 import java.util.Vector;
-import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -54,7 +54,7 @@ public class VistaAdministradorAlumno extends javax.swing.JFrame {
 
         btnSalir = new javax.swing.JButton();
         btnListar = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
+        etiquetaTitulo = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaAlumno = new javax.swing.JTable();
         btnRegistrar = new javax.swing.JButton();
@@ -79,9 +79,9 @@ public class VistaAdministradorAlumno extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("ADMINISTRADOR ALUMNO");
+        etiquetaTitulo.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        etiquetaTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        etiquetaTitulo.setText("ADMINISTRADOR ALUMNO");
 
         tablaAlumno.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -131,7 +131,7 @@ public class VistaAdministradorAlumno extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(etiquetaTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 552, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(73, 73, 73)
@@ -145,16 +145,16 @@ public class VistaAdministradorAlumno extends javax.swing.JFrame {
                         .addComponent(btnModificar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnEliminar)
-                        .addGap(29, 29, 29)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnInscribir)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(15, 15, 15)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addComponent(jLabel1)
+                .addComponent(etiquetaTitulo)
                 .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnRegistrar)
@@ -190,7 +190,7 @@ public class VistaAdministradorAlumno extends javax.swing.JFrame {
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
         int registroSeleccionado = tablaAlumno.getSelectedRow();
         VistaModificarAlumno ventanaModificar;
-        if(registroSeleccionado == -1){
+        if(registroSeleccionado == ValidadorDeEstado.NO_SELECCION){
             ventanaModificar = new VistaModificarAlumno();
         }else{
             Alumno alumnoAModificar = new Alumno();
@@ -205,7 +205,7 @@ public class VistaAdministradorAlumno extends javax.swing.JFrame {
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         int registroSeleccionado = tablaAlumno.getSelectedRow();
         VistaEliminarAlumno ventanaEliminar;
-        if(registroSeleccionado == -1){
+        if(registroSeleccionado ==  ValidadorDeEstado.NO_SELECCION){
             ventanaEliminar = new VistaEliminarAlumno();
         }else{
             String matriculaAEliminar = (String) tablaAlumno.getValueAt(registroSeleccionado, 0);
@@ -217,17 +217,20 @@ public class VistaAdministradorAlumno extends javax.swing.JFrame {
     private void btnInscribirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInscribirActionPerformed
         // TODO add your handling code here:
         int registroSeleccionado = tablaAlumno.getSelectedRow();
-        VistaInscribirAlumno ventanaInscribir;
-        if(registroSeleccionado == -1){
-            ventanaInscribir = new VistaInscribirAlumno();
+        if(registroSeleccionado == ValidadorDeEstado.NO_SELECCION){
+            JOptionPane.showMessageDialog(null, 
+                    "ERROR: Seleccionar alumno a inscribir a un grupo.", 
+                    "Error", JOptionPane.ERROR_MESSAGE);
         }else{
             Alumno alumnoAInscribir = new Alumno();
             alumnoAInscribir.SetMatricula((String) tablaAlumno.getValueAt(registroSeleccionado, 0));
             alumnoAInscribir.SetNombre((String) tablaAlumno.getValueAt(registroSeleccionado, 1));
             alumnoAInscribir.SetApellidos((String) tablaAlumno.getValueAt(registroSeleccionado, 2));
-            ventanaInscribir = new VistaInscribirAlumno(alumnoAInscribir);
+            
+            VistaInscribirAlumnoAGrupo ventanaInscribir = 
+                    new VistaInscribirAlumnoAGrupo(alumnoAInscribir);
+            ventanaInscribir.setVisible(true);
         }
-        ventanaInscribir.setVisible(true);
  
     }//GEN-LAST:event_btnInscribirActionPerformed
 
@@ -264,9 +267,7 @@ public class VistaAdministradorAlumno extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                if(ConexionBD.Conectar() == -1){
-                    ConexionBD.GenerarBD();
-                }
+                
             }
         });
     }
@@ -305,7 +306,7 @@ public class VistaAdministradorAlumno extends javax.swing.JFrame {
     private javax.swing.JButton btnModificar;
     private javax.swing.JButton btnRegistrar;
     private javax.swing.JButton btnSalir;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel etiquetaTitulo;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tablaAlumno;
     // End of variables declaration//GEN-END:variables

@@ -8,8 +8,6 @@ package Vista;
 import Controlador.AdministradorDeAsignatura;
 import ManejoDatos.ConexionBD;
 import Modulo.Asignatura;
-import javax.swing.JFrame;
-import Controlador.ValidarLongitudTexto;
 import javax.swing.JOptionPane;
 
 /**
@@ -35,17 +33,17 @@ public class VistaRegistrarAsignatura extends javax.swing.JFrame {
     private void initComponents() {
 
         txtNombreAsignatura = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        etiquetaNombre = new javax.swing.JLabel();
+        etiquetaClave = new javax.swing.JLabel();
         txtClaveAsignatura = new javax.swing.JTextField();
         btnGuardar = new javax.swing.JButton();
-        jLabel4 = new javax.swing.JLabel();
+        etiquetaTitulo = new javax.swing.JLabel();
         btnCancelar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
 
-        txtNombreAsignatura.setDocument(new ValidarLongitudTexto(30));
+        txtNombreAsignatura.setDocument(new ManejoDatos.ValidadorDeLongitudTexto(60));
         txtNombreAsignatura.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtNombreAsignaturaActionPerformed(evt);
@@ -57,11 +55,11 @@ public class VistaRegistrarAsignatura extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setText("Nombre:");
+        etiquetaNombre.setText("Nombre:");
 
-        jLabel3.setText("Clave");
+        etiquetaClave.setText("Clave");
 
-        txtClaveAsignatura.setDocument(new ValidarLongitudTexto(8));
+        txtClaveAsignatura.setDocument(new ManejoDatos.ValidadorDeLongitudTexto(8));
         txtClaveAsignatura.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtClaveAsignaturaKeyTyped(evt);
@@ -75,7 +73,7 @@ public class VistaRegistrarAsignatura extends javax.swing.JFrame {
             }
         });
 
-        jLabel4.setText("Registrar Asignatura");
+        etiquetaTitulo.setText("Registrar Asignatura");
 
         btnCancelar.setText("Cancelar");
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
@@ -90,13 +88,13 @@ public class VistaRegistrarAsignatura extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel4)
+                .addComponent(etiquetaTitulo)
                 .addGap(151, 151, 151))
             .addGroup(layout.createSequentialGroup()
                 .addGap(30, 30, 30)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel3))
+                    .addComponent(etiquetaNombre)
+                    .addComponent(etiquetaClave))
                 .addGap(35, 35, 35)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
@@ -111,16 +109,16 @@ public class VistaRegistrarAsignatura extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(23, 23, 23)
-                .addComponent(jLabel4)
+                .addComponent(etiquetaTitulo)
                 .addGap(31, 31, 31)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtNombreAsignatura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1))
+                            .addComponent(etiquetaNombre))
                         .addGap(53, 53, 53)
                         .addComponent(txtClaveAsignatura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel3))
+                    .addComponent(etiquetaClave))
                 .addGap(78, 78, 78)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnGuardar)
@@ -139,24 +137,24 @@ public class VistaRegistrarAsignatura extends javax.swing.JFrame {
 
         String nombre = txtNombreAsignatura.getText();
         String clave = txtClaveAsignatura.getText();
-
-        Asignatura unaAsignatura = new Asignatura(nombre, clave);
+        
+        Asignatura unaAsignatura = new Asignatura(clave, nombre);
         
         if(txtNombreAsignatura.getText().equals("")){
             JOptionPane.showMessageDialog(null, "ERROR: Llenar todos los campos", "Error", JOptionPane.ERROR_MESSAGE);
         }else{
-            if(clave.length()<8){
-                JOptionPane.showMessageDialog(null, "ERROR: Clave debe ser de 8 numeros. Ej: 12345678", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-            else {
-                String msjResultado = AdministradorDeAsignatura.Registrar(unaAsignatura);
-                JOptionPane.showMessageDialog(null, msjResultado);
-                if(JOptionPane.showConfirmDialog(null, "Desea registrar otra?",
-                        "Registrar", JOptionPane.YES_NO_OPTION) == JOptionPane.NO_OPTION){
-                    this.dispose();
-                }
+            
+            String msjResultado = AdministradorDeAsignatura.Registrar(unaAsignatura);
+            JOptionPane.showMessageDialog(null, msjResultado);
+            if(JOptionPane.showConfirmDialog(null, "Desea registrar otra?",
+                    "Registrar", JOptionPane.YES_NO_OPTION) == JOptionPane.NO_OPTION){
+                this.dispose();
+                
             }
         }
+        
+        txtNombreAsignatura.setText("");
+        txtClaveAsignatura.setText("");
 
     }//GEN-LAST:event_btnGuardarActionPerformed
 
@@ -169,14 +167,17 @@ public class VistaRegistrarAsignatura extends javax.swing.JFrame {
         // TODO add your handling code here:
         char validacion = evt.getKeyChar();
         
-        if((validacion<'a' || validacion>'z')&&(validacion<'A' || validacion>'Z')&&(validacion<' ' || validacion>' ')&&(validacion<'0' || validacion>'9'))evt.consume();
+        if((validacion<'a' || validacion>'z')&&(validacion<'A' || validacion>'Z')&&
+                (validacion<' ' || validacion>' ')&&(validacion<'0' || validacion>'9'))
+            evt.consume();
     }//GEN-LAST:event_txtNombreAsignaturaKeyTyped
 
     private void txtClaveAsignaturaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtClaveAsignaturaKeyTyped
         // TODO add your handling code here:
         char validacion = evt.getKeyChar();
         
-        if(validacion<'0' || validacion>'9')evt.consume();
+        if((validacion<'A' || validacion>'Z')&&(validacion<'0' || validacion>'9')&&
+                (validacion<'-' || validacion>'-'))evt.consume();
     }//GEN-LAST:event_txtClaveAsignaturaKeyTyped
 
     /**
@@ -209,9 +210,7 @@ public class VistaRegistrarAsignatura extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                if(ConexionBD.Conectar() == -1){
-                    ConexionBD.GenerarBD();
-                }
+                
             }
         });
     }
@@ -230,9 +229,9 @@ public class VistaRegistrarAsignatura extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnGuardar;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel etiquetaClave;
+    private javax.swing.JLabel etiquetaNombre;
+    private javax.swing.JLabel etiquetaTitulo;
     private javax.swing.JTextField txtClaveAsignatura;
     private javax.swing.JTextField txtNombreAsignatura;
     // End of variables declaration//GEN-END:variables

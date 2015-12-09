@@ -9,11 +9,13 @@ package Vista;
 import Controlador.AdministradorDeAsignatura;
 import Controlador.AdministradorDeGrupo;
 import Controlador.AdministradorDeProfesor;
-import ManejoDatos.ConexionBD;
+import ManejoDatos.ValidadorDeEstado;
+import ManejoDatos.ValidadorDeLongitudTexto;
 import Modulo.Asignatura;
 import Modulo.GrupoEscolar;
 import Modulo.Profesor;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -42,18 +44,19 @@ public class VistaRegistrarGrupoEscolar extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        txtClave = new javax.swing.JTextField();
+        txtClaveGrupo = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        txtAula = new javax.swing.JTextField();
+        txtAulaGrupo = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        txtHorario = new javax.swing.JTextField();
+        txtHorarioGrupo = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         comboAsignaturas = new javax.swing.JComboBox();
         comboProfesores = new javax.swing.JComboBox();
         btnGuardar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
 
         jLabel1.setText("Clave");
 
@@ -61,13 +64,26 @@ public class VistaRegistrarGrupoEscolar extends javax.swing.JFrame {
 
         jLabel3.setText("Profesor");
 
-        txtClave.addActionListener(new java.awt.event.ActionListener() {
+        txtClaveGrupo.setDocument(new ManejoDatos.ValidadorDeLongitudTexto(8));
+        txtClaveGrupo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtClaveActionPerformed(evt);
+                txtClaveGrupoActionPerformed(evt);
+            }
+        });
+        txtClaveGrupo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtClaveGrupoKeyTyped(evt);
             }
         });
 
         jLabel4.setText("Aula");
+
+        txtAulaGrupo.setDocument(new ManejoDatos.ValidadorDeLongitudTexto(1));
+        txtAulaGrupo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtAulaGrupoKeyTyped(evt);
+            }
+        });
 
         jLabel5.setText("Horario");
 
@@ -116,9 +132,9 @@ public class VistaRegistrarGrupoEscolar extends javax.swing.JFrame {
                         .addGap(26, 26, 26)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel6)
-                            .addComponent(txtClave)
-                            .addComponent(txtAula)
-                            .addComponent(txtHorario, javax.swing.GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE)
+                            .addComponent(txtClaveGrupo)
+                            .addComponent(txtAulaGrupo)
+                            .addComponent(txtHorarioGrupo, javax.swing.GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE)
                             .addComponent(comboAsignaturas, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(comboProfesores, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -136,7 +152,7 @@ public class VistaRegistrarGrupoEscolar extends javax.swing.JFrame {
                 .addGap(34, 34, 34)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(txtClave, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtClaveGrupo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
@@ -152,8 +168,8 @@ public class VistaRegistrarGrupoEscolar extends javax.swing.JFrame {
                         .addGap(26, 26, 26)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel5)
-                            .addComponent(txtHorario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(txtAula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtHorarioGrupo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(txtAulaGrupo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnGuardar)
@@ -164,9 +180,9 @@ public class VistaRegistrarGrupoEscolar extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtClaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtClaveActionPerformed
+    private void txtClaveGrupoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtClaveGrupoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtClaveActionPerformed
+    }//GEN-LAST:event_txtClaveGrupoActionPerformed
 
     private void comboAsignaturasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboAsignaturasActionPerformed
         // TODO add your handling code here:
@@ -178,30 +194,56 @@ public class VistaRegistrarGrupoEscolar extends javax.swing.JFrame {
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         // TODO add your handling code here:
-        String clave = txtClave.getText();
-        Asignatura asignatura = ((Asignatura)comboAsignaturas.getSelectedItem());
-        Profesor profesor =((Profesor)comboProfesores.getSelectedItem());
-        String aula = txtAula.getText();
-        String horario = txtHorario.getText();
         
-        GrupoEscolar unGrupo = new GrupoEscolar(clave, asignatura, profesor, aula, horario);
+        if(txtAulaGrupo.getText().equals("") || txtHorarioGrupo.getText().equals("") ||
+                comboAsignaturas.getSelectedIndex() == ValidadorDeEstado.NO_SELECCION ||
+                comboProfesores.getSelectedIndex() == ValidadorDeEstado.NO_SELECCION){
+            JOptionPane.showMessageDialog(null, "ERROR: Llenar todos los campos", "Error", JOptionPane.ERROR_MESSAGE);
+        }else{
+            if(txtClaveGrupo.getText().length() < ValidadorDeLongitudTexto.LONGITUD_CLAVE){
+                JOptionPane.showMessageDialog(null, "ERROR: Clave debe ser de 8 numeros. Ej: 12345678", "Error", JOptionPane.ERROR_MESSAGE);
+            } else {
+                String claveGrupo = txtClaveGrupo.getText();
+                Asignatura unaAsignatura = ((Asignatura)comboAsignaturas.getSelectedItem());
+                Profesor unProfesor =((Profesor)comboProfesores.getSelectedItem());
+                String aula = txtAulaGrupo.getText();
+                String horario = txtHorarioGrupo.getText();
+                
+                GrupoEscolar unGrupo = new GrupoEscolar(claveGrupo, unaAsignatura, unProfesor, aula, horario);
+                String msjResultado = AdministradorDeGrupo.Registrar(unGrupo);
+                JOptionPane.showMessageDialog(null, msjResultado);
+                if(JOptionPane.showConfirmDialog(null, "Desea registrar otro?",
+                        "Registrar", JOptionPane.YES_NO_OPTION) == JOptionPane.NO_OPTION){
+                    this.dispose();
+                }
+            }
+        }
 
-        AdministradorDeGrupo.Registrar(unGrupo);
-        /*  JOptionPane.showMessageDialog(null, "Grupo Guardado");
-        if(JOptionPane.showConfirmDialog(null, "Desea registrar otro?") == JOptionPane.NO_OPTION){
-            this.dispose();
-            //new VistaRegistrarAlumno().setVisible(true);
-        }*/
-
-        txtClave.setText("");
-        txtAula.setText("");
-        txtHorario.setText("");
+        txtClaveGrupo.setText("");
+        comboAsignaturas.setSelectedIndex(ValidadorDeEstado.NO_SELECCION);
+        comboProfesores.setSelectedIndex(ValidadorDeEstado.NO_SELECCION);
+        txtAulaGrupo.setText("");
+        txtHorarioGrupo.setText("");
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         // TODO add your handling code here:
         this.dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void txtClaveGrupoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtClaveGrupoKeyTyped
+        // TODO add your handling code here:
+        char validacion = evt.getKeyChar();
+        
+        if(validacion < '0' || validacion > '9')evt.consume();
+    }//GEN-LAST:event_txtClaveGrupoKeyTyped
+
+    private void txtAulaGrupoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtAulaGrupoKeyTyped
+        // TODO add your handling code here:
+        char validacion = evt.getKeyChar();
+        
+        if(validacion < 'A' || validacion > 'Z')evt.consume();
+    }//GEN-LAST:event_txtAulaGrupoKeyTyped
 
     /**
      * @param args the command line arguments
@@ -233,9 +275,7 @@ public class VistaRegistrarGrupoEscolar extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                if(ConexionBD.Conectar() == -1){
-                    ConexionBD.GenerarBD();
-                }
+               
             }
         });
     }
@@ -275,8 +315,8 @@ public class VistaRegistrarGrupoEscolar extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JTextField txtAula;
-    private javax.swing.JTextField txtClave;
-    private javax.swing.JTextField txtHorario;
+    private javax.swing.JTextField txtAulaGrupo;
+    private javax.swing.JTextField txtClaveGrupo;
+    private javax.swing.JTextField txtHorarioGrupo;
     // End of variables declaration//GEN-END:variables
 }
