@@ -1,0 +1,48 @@
+Lunes|
+Cereal con Leche|Cereal de fibra con leche.|
+Fruta|Una fruta como un plátano o una manzana.|
+Atún y Ensalada|Una lata de atún acompañada de una ensalada.|
+Galletas|5 galletas no dulces.|
+Cereal con Yoghurt|Un poco de cereal de fibra acompañado de un poco de yoghurt.|
+
+Martes|
+Leche y Fruta|Un vaso de leche acompañado de unos 200 gramos de frutas, preferiblemente suaves.|
+Yoghurt|Unos 100ml de yoghurt.|
+Verdura Cocida y Sopa|100 gramos de verdura cocida y una sopa con 30 gramos de fideos.|
+Manzana|Una manzana, ya sea verde o roja.|
+Ensalada con Pollo|Una ensalada con 150 gramos de tomate y 100 gramos de pollo.|
+
+Miércoles|
+Yoghurt y Fruta|Un vaso de yoghurt y un poco de fruta.|
+Fruta|Unos 100 gramos de fruta.|
+Pollo y Tortilla Francesa|100 gramos de carne de pollo y una tortilla francesa con 2 claras.|
+Uvas|Unos 100 gramos de uvas.|
+Verdura Cocida y Pescado|Unos 200 gramos de verdura cocida acompañada de unos 150 gramos de pescado tipo lenguado.|
+
+Jueves|
+Jugo Natural|Un vaso de jugo de fruta natural.|
+Pan Tostado con Queso|Un pedazo de pan tostado untado con queso saborizado light.|
+Carne a la Plancha con Ensalada|Una porción de carne a la planca con una porción de ensalada de hojas verdes.|
+Galletas|5 galletas integrales light.|
+Sopa Light|Una taza de caldo o sopa light.|
+
+Viernes|
+Leche con avena|Un vaso de leche con 2 cucharadas de avena.|
+Fruta|Una fruta a elección.|
+Pasta Integral con Verduras|Un plato de pastas integrales con verduras hervidas de elección.|
+Yoghurt con Fruta|Un yoghurt descremado con un poco de fruta.|
+Pescado a la Plancha|Una porción de pescado a la plancha con un jugo de fruta natural.|
+
+Sábado|
+Té con Tostada|Un vaso de té con una tostada espelta con tomate y queso fresco.|
+Tostada con Paté|Una tostada con paté vegetal.|
+Cogollos y Garbanzos|Cogollos de lechuga con zanahoria rallada y grabanzos de espinacas y huevo duro.|
+Yoghurt y Nueces|Yoghurt bifidus y 3 nueces.|
+Espárragos y Caballa|Espárragos con tomatitos a la vinagreta y una caballa aromatizada a la plancha.|
+
+Domingo|
+Día libre|En este día puedes comer lo que se te antoje, siempre y cuando no sea algo muy pesado para la hora.|
+Día libre|En este día puedes comer lo que se te antoje, siempre y cuando no sea algo muy pesado para la hora.|
+Día libre|En este día puedes comer lo que se te antoje, siempre y cuando no sea algo muy pesado para la hora.|
+Día libre|En este día puedes comer lo que se te antoje, siempre y cuando no sea algo muy pesado para la hora.|
+Día libre|En este día puedes comer lo que se te antoje, siempre y cuando no sea algo muy pesado para la hora.
